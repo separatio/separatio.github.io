@@ -1,7 +1,5 @@
 function BlogPage() {
-  return (
-    <></>
-  )
+  return <></>
 }
 
 export default BlogPage

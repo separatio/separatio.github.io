@@ -1,18 +1,16 @@
-import CssBaseline from '@mui/material/CssBaseline';
-import ResponsiveAppBar from './components/Appbar';
+import CssBaseline from '@mui/material/CssBaseline'
+import ResponsiveAppBar from './components/Appbar'
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles'
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
   typography: {
-    fontFamily: [
-      '"Roboto Mono", monospace'
-    ].join(','),
-  }
-});
+    fontFamily: ['"Roboto Mono", monospace'].join(','),
+  },
+})
 
 function App() {
   return (
