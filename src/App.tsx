@@ -1,7 +1,12 @@
 import CssBaseline from '@mui/material/CssBaseline'
-import ResponsiveAppBar from './components/Appbar'
+import ResponsiveAppBar from './components/ResponsiveAppBar'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { useState } from 'react'
+import HomePage from './pages/Home.page'
+import ContactPage from './pages/Contact.page'
+import BlogPage from './pages/Blog.page'
+import ProjectsPage from './pages/ProjectsPage'
 
 const darkTheme = createTheme({
   palette: {
@@ -13,11 +18,26 @@ const darkTheme = createTheme({
 })
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('Home')
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'Contact':
+        return <ContactPage />
+      case 'Blog':
+        return <BlogPage />
+      case 'Projects':
+        return <ProjectsPage />
+      default:
+        return <HomePage />
+    }
+  }
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <ResponsiveAppBar />
-      <div>test</div>
+      <ResponsiveAppBar setCurrentPage={setCurrentPage} />
+      {renderPage()}
     </ThemeProvider>
   )
 }

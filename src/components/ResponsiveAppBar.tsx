@@ -11,17 +11,24 @@ import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
 import { Flaky } from '@mui/icons-material'
 
-const pages = ['Blog', 'Contact', 'Projects']
+const pages: Page[] = ['Home', 'Blog', 'Contact', 'Projects']
 
-function ResponsiveAppBar() {
+interface ResponsiveAppBarProps {
+  setCurrentPage: (page: Page) => void
+}
+
+type Page = 'Home' | 'Blog' | 'Contact' | 'Projects'
+
+function ResponsiveAppBar({ setCurrentPage }: ResponsiveAppBarProps) {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
   }
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
+  const handleCloseNavMenu = (page: Page) => {
+    setCurrentPage(page) // Update the selected page
+    setAnchorElNav(null) // Close the menu
   }
 
   return (
@@ -59,7 +66,7 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -77,7 +84,7 @@ function ResponsiveAppBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => setCurrentPage(page)}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
