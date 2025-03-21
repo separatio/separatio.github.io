@@ -7,6 +7,11 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
+  typography: {
+    fontFamily: [
+      '"Roboto Mono", monospace'
+    ].join(','),
+  }
 });
 
 function App() {
