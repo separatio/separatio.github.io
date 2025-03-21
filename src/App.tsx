@@ -1,10 +1,21 @@
-import { Header } from './components/Header/Header';
+import CssBaseline from '@mui/material/CssBaseline';
+import ResponsiveAppBar from './components/Appbar';
+
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 function App() {
   return (
-    <>
-      <Header />
-    </>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <ResponsiveAppBar />
+      <div>test</div>
+    </ThemeProvider>
   )
 }
 
