@@ -10,6 +10,7 @@
     "format": "prettier . -w -l",
     "preview": "vite preview"
   },
+  "homepage": "https://separatio.github.io/portfolio",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
