@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "format": "prettier . -w -l",
     "preview": "vite preview",
-    "deploy": "gh-pages -d ./dist"
+    "deploy": "gh-pages -d ./dist",
+    "prepare": "husky"
   },
   "homepage": "https://separatio.github.io/",
   "dependencies": {
@@ -38,6 +39,7 @@
     "eslint-plugin-react-x": "^1.37.0",
     "gh-pages": "^6.3.0",
     "globals": "^15.15.0",
+    "husky": "^9.1.7",
     "prettier": "3.5.3",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.27.0",
