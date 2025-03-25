@@ -36,7 +36,7 @@ function ResponsiveAppBar({ setCurrentPage }: ResponsiveAppBarProps) {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <IconButton
-            href="#"
+            onClick={() => setCurrentPage('Home')}
             sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
           >
             <Flaky />
@@ -74,7 +74,7 @@ function ResponsiveAppBar({ setCurrentPage }: ResponsiveAppBarProps) {
           </Box>
 
           <IconButton
-            href="#"
+            onClick={() => setCurrentPage('Home')}
             sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}
           >
             <Flaky />
