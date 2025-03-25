@@ -29,7 +29,7 @@ function App() {
       case 'Projects':
         return <ProjectsPage />
       default:
-        return <HomePage />
+        return <HomePage setCurrentPage={setCurrentPage} />
     }
   }
 
