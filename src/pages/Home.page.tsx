@@ -51,8 +51,9 @@ export default function HomePage({ setCurrentPage }: HomePageProps) {
           </Button>
         </Stack>
 
-        <Typography component='h1' color='red' fontWeight='bold'>
+        <Typography variant='h3' color='red' fontWeight='bold'>
           SITE IN CONSTRUCTION!
+          <br />
           <br />
           THERE BE DRAGONS!
           <br />
