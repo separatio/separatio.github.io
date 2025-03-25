@@ -27,7 +27,7 @@ export default function HomePage({ setCurrentPage }: HomePageProps) {
       >
         {/* Profile Picture */}
         <Avatar
-          src="/headshot.jpg"
+          src="/headshot.png"
           alt="Alex Radulescu"
           sx={{ width: 150, height: 150, mb: 2 }}
         />
