@@ -1,18 +1,30 @@
-import { Container, Typography, Button, Box, Stack, Avatar } from '@mui/material';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import { EmailRounded } from '@mui/icons-material';
+import {
+  Container,
+  Typography,
+  Button,
+  Box,
+  Stack,
+  Avatar,
+} from '@mui/material'
+import GitHubIcon from '@mui/icons-material/GitHub'
+import LinkedInIcon from '@mui/icons-material/LinkedIn'
+import { EmailRounded } from '@mui/icons-material'
 
 interface HomePageProps {
-  setCurrentPage: (page: string) => void;
+  setCurrentPage: (page: string) => void
 }
 
 export default function HomePage({ setCurrentPage }: HomePageProps) {
   return (
     <Container maxWidth="lg">
       {/* Hero Section */}
-      <Box display="flex" flexDirection="column" alignItems="center" textAlign="center" py={10}>
-
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        textAlign="center"
+        py={10}
+      >
         {/* Profile Picture */}
         <Avatar
           src="/headshot.jpg"
@@ -24,16 +36,32 @@ export default function HomePage({ setCurrentPage }: HomePageProps) {
         <Typography variant="h4" fontWeight="bold" gutterBottom>
           Alex Radulescu
         </Typography>
-        <Typography component='p' variant="h5" color="text.secondary" gutterBottom>
+        <Typography
+          component="p"
+          variant="h5"
+          color="text.secondary"
+          gutterBottom
+        >
           Quality Engineer
         </Typography>
 
         {/* Call to Actions */}
         <Stack direction="row" spacing={2} mt={2}>
-          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('Projects')}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={() => setCurrentPage('Projects')}
+          >
             View Projects
           </Button>
-          <Button variant="outlined" color="primary" size="large" href="/path/to/cv.pdf" target="_blank">
+          <Button
+            variant="outlined"
+            color="primary"
+            size="large"
+            href="/path/to/cv.pdf"
+            target="_blank"
+          >
             Download CV
           </Button>
         </Stack>
@@ -51,7 +79,7 @@ export default function HomePage({ setCurrentPage }: HomePageProps) {
           </Button>
         </Stack>
 
-        <Typography variant='h3' color='red' fontWeight='bold'>
+        <Typography variant="h3" color="red" fontWeight="bold">
           SITE IN CONSTRUCTION!
           <br />
           <br />
@@ -62,5 +90,5 @@ export default function HomePage({ setCurrentPage }: HomePageProps) {
         </Typography>
       </Box>
     </Container>
-  );
+  )
 }
