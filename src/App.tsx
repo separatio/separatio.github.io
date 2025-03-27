@@ -1,12 +1,13 @@
 import CssBaseline from '@mui/material/CssBaseline'
-import ResponsiveAppBar from './components/ResponsiveAppBar'
+import ResponsiveAppBar from './components/AppBar/ResponsiveAppBar'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { useState } from 'react'
 import HomePage from './pages/Home.page'
 import ContactPage from './pages/Contact.page'
 import BlogPage from './pages/Blog.page'
 import ProjectsPage from './pages/ProjectsPage'
+
+import { Route, Routes } from 'react-router'
 
 const darkTheme = createTheme({
   palette: {
@@ -18,26 +19,17 @@ const darkTheme = createTheme({
 })
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('Home')
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'Contact':
-        return <ContactPage />
-      case 'Blog':
-        return <BlogPage />
-      case 'Projects':
-        return <ProjectsPage />
-      default:
-        return <HomePage setCurrentPage={setCurrentPage} />
-    }
-  }
-
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <ResponsiveAppBar setCurrentPage={setCurrentPage} />
-      {renderPage()}
+      <Routes>
+        <Route element={<ResponsiveAppBar />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="blog" element={<BlogPage />} />
+          <Route path="projects" element={<ProjectsPage />} />
+        </Route>
+      </Routes>
     </ThemeProvider>
   )
 }

@@ -10,11 +10,7 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import { EmailRounded } from '@mui/icons-material'
 
-interface HomePageProps {
-  setCurrentPage: (page: string) => void
-}
-
-export default function HomePage({ setCurrentPage }: HomePageProps) {
+export default function HomePage() {
   return (
     <Container maxWidth="lg">
       {/* Hero Section */}
@@ -47,12 +43,7 @@ export default function HomePage({ setCurrentPage }: HomePageProps) {
 
         {/* Call to Actions */}
         <Stack direction="row" spacing={2} mt={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            onClick={() => setCurrentPage('Projects')}
-          >
+          <Button variant="contained" color="primary" size="large">
             View Projects
           </Button>
           <Button
