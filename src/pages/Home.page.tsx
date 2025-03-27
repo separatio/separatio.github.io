@@ -70,7 +70,7 @@ export default function HomePage() {
           </Button>
         </Stack>
 
-        <Typography variant="h3" color="red" fontWeight="bold">
+        <Typography variant="h3" color="orange" fontWeight="bold">
           SITE IN CONSTRUCTION!
           <br />
           <br />
