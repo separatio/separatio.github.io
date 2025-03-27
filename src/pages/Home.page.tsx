@@ -9,6 +9,8 @@ import {
 import GitHubIcon from '@mui/icons-material/GitHub'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import { EmailRounded } from '@mui/icons-material'
+import { Link as RouterLink } from 'react-router'
+import routes from '../routes'
 
 export default function HomePage() {
   return (
@@ -43,7 +45,13 @@ export default function HomePage() {
 
         {/* Call to Actions */}
         <Stack direction="row" spacing={2} mt={2}>
-          <Button variant="contained" color="primary" size="large">
+          <Button
+            component={RouterLink}
+            to={routes.projects.href}
+            variant="contained"
+            color="primary"
+            size="large"
+          >
             View Projects
           </Button>
           <Button

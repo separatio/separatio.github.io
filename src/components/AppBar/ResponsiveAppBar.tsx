@@ -7,8 +7,8 @@ import { Link as RouterLink } from 'react-router'
 import { Flaky } from '@mui/icons-material'
 import AppBarButton from './AppBarButton'
 import AppBarMenu from './AppBarMenu'
-import { pages } from '../../pages/pages'
 import { Outlet } from 'react-router'
+import routes from '../../routes'
 
 function ResponsiveAppBar() {
   return (
@@ -35,11 +35,11 @@ function ResponsiveAppBar() {
             </IconButton>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
+              {Object.values(routes).map((route) => (
                 <AppBarButton
-                  key={page.name}
-                  href={page.href}
-                  name={page.name}
+                  key={route.name}
+                  href={route.href}
+                  name={route.name}
                 />
               ))}
             </Box>

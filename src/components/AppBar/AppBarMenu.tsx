@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
 import React from 'react'
-import { pages } from '../../pages/pages'
+import routes from '../../routes'
 
 function AppBarMenu() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
@@ -14,7 +14,7 @@ function AppBarMenu() {
   }
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null) // Close the menu
+    setAnchorElNav(null)
   }
 
   return (
@@ -41,14 +41,14 @@ function AppBarMenu() {
           display: { xs: 'block', md: 'none' },
         }}
       >
-        {pages.map((page) => (
+        {Object.values(routes).map((route) => (
           <MenuItem
-            key={page.name}
+            key={route.name}
             component={RouterLink}
-            to={page.href}
-            onClick={handleCloseNavMenu} // Close the menu after clicking
+            to={route.href}
+            onClick={handleCloseNavMenu}
           >
-            <Typography textAlign="center">{page.name}</Typography>
+            <Typography textAlign="center">{route.name}</Typography>
           </MenuItem>
         ))}
       </Menu>
