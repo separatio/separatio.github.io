@@ -1,0 +1,115 @@
+/* Writing index — post list with hairline dividers, echoing the Contact/
+   Experience row vocabulary. */
+
+.section {
+  padding: calc(var(--nav-height) + var(--space-lg)) var(--gutter)
+    var(--space-2xl);
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Empty state ────────────────────────────────────────────────────── */
+
+.empty {
+  margin-top: var(--space-xl);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+/* ── Post list ──────────────────────────────────────────────────────── */
+
+.list {
+  margin-top: var(--space-xl);
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(var(--gold-rgb), 0.2);
+}
+
+.item {
+  border-bottom: 1px solid rgba(var(--gold-rgb), 0.2);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  column-gap: var(--space-lg);
+  align-items: baseline;
+  padding: var(--space-md) 0;
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.row:hover {
+  background-color: rgba(var(--gold-rgb), 0.05);
+}
+
+.row:hover .title {
+  color: var(--gold);
+}
+
+/* Date — muted mono gold kicker in the left rail */
+.date {
+  grid-column: 1;
+  align-self: baseline;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+/* Title + summary share one left edge in column 2 */
+.titleStack {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+/* Title — primary row anchor */
+.title {
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+/* Summary */
+.summary {
+  max-width: var(--reading-max);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-normal);
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-2xs);
+  }
+
+  .date,
+  .titleStack {
+    grid-column: 1;
+  }
+
+  .date {
+    margin-bottom: var(--space-3xs);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row,
+  .title {
+    transition: none;
+  }
+}

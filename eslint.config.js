@@ -34,12 +34,6 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: ['@mui/*/*/*'],
-        },
-      ],
       ...reactX.configs['recommended-typescript'].rules,
       ...reactDom.configs.recommended.rules,
     },

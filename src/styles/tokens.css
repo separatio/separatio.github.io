@@ -1,0 +1,95 @@
+/* Design tokens — Blueprint / cyanotype "architect's plan" system.
+   Deep navy ground, muted-gold hairlines, ivory text, monospace-forward.
+   Lineage: business-card src/variations/blueprint-navy.css. Dark-only. */
+:root {
+  /* ── Navy ground (radial, top-lit) ──────────────────────────────── */
+  --navy-100: #102a4e; /* lit top stop */
+  --navy-200: #0c2040; /* mid stop */
+  --navy-300: #0a1a32; /* deep base */
+  --bg-gradient: radial-gradient(
+    125% 120% at 50% -10%,
+    #102a4e 0%,
+    #0c2040 55%,
+    #0a1a32 100%
+  );
+
+  /* ── Gold accent ────────────────────────────────────────────────── */
+  --gold: #c9a24e;
+  --gold-rgb: 201, 162, 78;
+  --navy-300-rgb: 10, 26, 50;
+
+  /* ── Text ───────────────────────────────────────────────────────── */
+  --text-primary: #f6f4ef; /* ivory — names, display */
+  --text-secondary: #d7dce4; /* soft-white — body / taglines */
+  --text-tertiary: #eceff3; /* blue-white — contact values */
+
+  /* ── Engineering grid + registration marks ──────────────────────── */
+  --grid-line: rgba(var(--gold-rgb), 0.05);
+  --grid-size: 20px;
+  --corner-tick: rgba(var(--gold-rgb), 0.75);
+
+  /* ── Section hairline rule (gold @ 0.55) ────────────────────────── */
+  --rule-color: var(--gold);
+  --rule-opacity: 0.55;
+  --rule-thickness: 1px;
+
+  /* ── Type families ──────────────────────────────────────────────── */
+  --font-mono:
+    'IBM Plex Mono', ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono',
+    Menlo, Consolas, monospace;
+  --font-sans:
+    'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+
+  /* ── Modular type scale (1.25 — major third, base 1rem) ─────────── */
+  --text-xs: 0.64rem; /* fine labels, ticks */
+  --text-sm: 0.8rem; /* eyebrows, captions */
+  --text-base: 1rem; /* body */
+  --text-md: 1.25rem; /* lead body */
+  --text-lg: 1.563rem; /* sub-headings */
+  --text-xl: 1.953rem; /* section heads */
+  --text-2xl: 2.441rem; /* large heads */
+  --text-display: clamp(2.75rem, 1.6rem + 5.75vw, 6rem); /* hero name */
+
+  /* ── Line heights ───────────────────────────────────────────────── */
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
+  --leading-normal: 1.6;
+
+  /* ── Letter-spacing ─────────────────────────────────────────────── */
+  --tracking-wide: 0.18em; /* eyebrows / labels (uppercase mono) */
+  --tracking-snug: -0.01em; /* display */
+
+  /* ── Spacing scale (8px base, geometric-ish) ────────────────────── */
+  --space-3xs: 0.25rem; /* 4 */
+  --space-2xs: 0.5rem; /* 8 */
+  --space-xs: 0.75rem; /* 12 */
+  --space-sm: 1rem; /* 16 */
+  --space-md: 1.5rem; /* 24 */
+  --space-lg: 2.5rem; /* 40 */
+  --space-xl: 4rem; /* 64 */
+  --space-2xl: 6rem; /* 96 */
+  --space-3xl: 9rem; /* 144 */
+
+  /* ── Reading measure ────────────────────────────────────────────── */
+  --reading-max: 62ch;
+
+  /* ── Layout ─────────────────────────────────────────────────────── */
+  --nav-height: 56px;
+  --gutter: var(--space-lg); /* section inline padding; tightens on phones */
+
+  /* ── Easing + duration ──────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-base: 280ms;
+  --duration-slow: 600ms;
+}
+
+/* Phones get a tighter inline gutter so content isn't cramped on narrow screens. */
+@media (max-width: 600px) {
+  :root {
+    --gutter: var(--space-md);
+  }
+}

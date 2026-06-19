@@ -2,11 +2,81 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <title>Alex Radulescu - QA Engineer</title>
+    <title>Alex Rădulescu — AI-First Builder &amp; Operator</title>
+    <meta
+      name="description"
+      content="Alex Rădulescu — AI-first builder &amp; operator. 10+ years in software quality, building SaaS and agent infrastructure with Claude Code."
+    />
+    <meta name="theme-color" content="#0A1A32" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Alex Rădulescu — AI-First Builder &amp; Operator"
+    />
+    <meta
+      property="og:description"
+      content="Alex Rădulescu — AI-first builder &amp; operator. 10+ years in software quality, building SaaS and agent infrastructure with Claude Code."
+    />
+    <meta property="og:url" content="https://separatio.github.io/" />
+    <meta property="og:image" content="https://separatio.github.io/og.png" />
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Alex Rădulescu — AI-First Builder &amp; Operator"
+    />
+    <meta
+      name="twitter:description"
+      content="Alex Rădulescu — AI-first builder &amp; operator. 10+ years in software quality, building SaaS and agent infrastructure with Claude Code."
+    />
+    <meta name="twitter:image" content="https://separatio.github.io/og.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Font preloads: above-the-fold display + body -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/fonts/ibm-plex-mono-500-latin.woff2"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/fonts/ibm-plex-sans-400-latin.woff2"
+    />
+
+    <script>
+      // Single-page apps for GitHub Pages — rafgraph/spa-github-pages
+      // Decode the path from the query string set by 404.html
+      ;(function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search
+            .slice(1)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&')
+            })
+            .join('?')
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          )
+        }
+      })(window.location)
+    </script>
   </head>
-  <body id="root">
+  <body>
+    <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

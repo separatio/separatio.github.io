@@ -1,0 +1,36 @@
+/* Four L-shaped gold registration ticks, pinned to the corners of the nearest
+   positioned ancestor. Decorative framing for the hero. */
+.tick {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.tl {
+  top: 0;
+  left: 0;
+  border-top: 1px solid var(--corner-tick);
+  border-left: 1px solid var(--corner-tick);
+}
+
+.tr {
+  top: 0;
+  right: 0;
+  border-top: 1px solid var(--corner-tick);
+  border-right: 1px solid var(--corner-tick);
+}
+
+.bl {
+  bottom: 0;
+  left: 0;
+  border-bottom: 1px solid var(--corner-tick);
+  border-left: 1px solid var(--corner-tick);
+}
+
+.br {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1px solid var(--corner-tick);
+  border-right: 1px solid var(--corner-tick);
+}

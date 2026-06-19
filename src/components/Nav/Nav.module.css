@@ -1,0 +1,157 @@
+/* Fixed top navigation bar — translucent navy, gold bottom hairline. */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(var(--navy-300-rgb), 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(var(--gold-rgb), 0.55);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-lg);
+  height: var(--nav-height);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Mono wordmark */
+.wordmark {
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.wordmark:hover {
+  opacity: 0.75;
+}
+
+/* Desktop nav links */
+.desktopLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  font-family: var(--font-mono);
+  font-size: 0.875rem; /* 14px — reads as primary nav, up from tiny --text-xs */
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.navLink:hover {
+  color: var(--gold);
+}
+
+.navLink.active {
+  color: var(--gold);
+}
+
+/* Mobile hamburger */
+.hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  padding: var(--space-2xs);
+  line-height: 0;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.hamburger:hover {
+  color: var(--gold);
+}
+
+/* Mobile dropdown menu — full-bleed opaque overlay anchored under the fixed bar */
+.mobileMenu {
+  display: none;
+  position: absolute;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  list-style: none;
+  margin: 0;
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  gap: var(--space-sm);
+  background: var(--navy-300);
+  border-bottom: 1px solid rgba(var(--gold-rgb), 0.3);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: var(--space-xs) 0;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.mobileLink:hover {
+  color: var(--gold);
+}
+
+.mobileLink.active {
+  color: var(--gold);
+}
+
+@media (max-width: 768px) {
+  .desktopLinks {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .mobileMenu {
+    flex-direction: column;
+  }
+
+  .mobileMenuOpen {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wordmark,
+  .navLink,
+  .hamburger,
+  .mobileLink {
+    transition: none;
+  }
+}
