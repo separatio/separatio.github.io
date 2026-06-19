@@ -1,0 +1,23 @@
+/* Section-header primitive: mono uppercase gold eyebrow over a thin gold rule. */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.rule {
+  width: 100%;
+  height: var(--rule-thickness);
+  background: var(--rule-color);
+  opacity: var(--rule-opacity);
+  border: 0;
+}
