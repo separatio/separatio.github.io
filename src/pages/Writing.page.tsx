@@ -1,11 +1,33 @@
+import { Link } from 'react-router'
+import EyebrowRule from '../components/EyebrowRule'
+import { allPosts } from '../writing/loadPosts'
 import styles from './Writing.module.css'
 
 function WritingPage() {
   return (
-    <div className={styles.placeholder}>
-      <span className={styles.eyebrow}>Writing</span>
-      <p className={styles.note}>Writing — coming in WS4</p>
-    </div>
+    <section className={styles.section}>
+      <div className={styles.wrap}>
+        <EyebrowRule label="WRITING" />
+
+        {allPosts.length === 0 ? (
+          <p className={styles.empty}>
+            Nothing published yet. Check back soon.
+          </p>
+        ) : (
+          <ul className={styles.list} role="list">
+            {allPosts.map((post) => (
+              <li key={post.slug} className={styles.item}>
+                <Link to={`/writing/${post.slug}`} className={styles.row}>
+                  <span className={styles.date}>{post.date}</span>
+                  <span className={styles.title}>{post.title}</span>
+                  <span className={styles.summary}>{post.summary}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </section>
   )
 }
 
