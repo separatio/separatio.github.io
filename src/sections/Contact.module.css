@@ -1,0 +1,65 @@
+/* Contact — `LABEL  value` rows with hairline dividers, echoing the business
+   card. */
+.section {
+  padding: var(--space-2xl) var(--space-lg);
+  scroll-margin-top: 56px;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.rows {
+  margin: var(--space-xl) 0 0;
+  border-top: 1px solid rgba(var(--gold-rgb), 0.2);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  align-items: baseline;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid rgba(var(--gold-rgb), 0.2);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.valueCell {
+  margin: 0;
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  color: var(--text-tertiary);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+a.value:hover {
+  color: var(--gold);
+}
+
+@media (max-width: 520px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: var(--space-3xs);
+  }
+
+  .value {
+    font-size: var(--text-base);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .value {
+    transition: none;
+  }
+}

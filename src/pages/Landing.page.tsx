@@ -1,13 +1,20 @@
-import CornerMarks from '../components/CornerMarks'
-import styles from './Landing.module.css'
+import Hero from '../sections/Hero'
+import About from '../sections/About'
+import Building from '../sections/Building'
+import Experience from '../sections/Experience'
+import Contact from '../sections/Contact'
+import Footer from '../sections/Footer'
 
 function LandingPage() {
   return (
-    <div className={styles.placeholder}>
-      <CornerMarks />
-      <span className={styles.eyebrow}>Landing</span>
-      <p className={styles.note}>Landing — coming in WS3</p>
-    </div>
+    <>
+      <Hero />
+      <About />
+      <Building />
+      <Experience />
+      <Contact />
+      <Footer />
+    </>
   )
 }
 
