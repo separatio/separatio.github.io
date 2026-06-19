@@ -19,7 +19,9 @@ export function useHashScroll() {
     if (!hash) return
 
     const id = hash.slice(1) // strip leading '#'
-    const behavior: ScrollBehavior = prefersReducedMotion() ? 'instant' : 'smooth'
+    const behavior: ScrollBehavior = prefersReducedMotion()
+      ? 'instant'
+      : 'smooth'
 
     function scrollTo() {
       const el = document.getElementById(id)

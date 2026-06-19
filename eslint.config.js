@@ -34,7 +34,7 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
-...reactX.configs['recommended-typescript'].rules,
+      ...reactX.configs['recommended-typescript'].rules,
       ...reactDom.configs.recommended.rules,
     },
   }

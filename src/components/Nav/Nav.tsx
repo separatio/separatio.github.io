@@ -125,10 +125,12 @@ function Nav() {
         <button
           type="button"
           className={styles.hamburger}
-          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-label={
+            menuOpen ? 'Close navigation menu' : 'Open navigation menu'
+          }
           aria-expanded={menuOpen}
           aria-controls={menuId}
-          onClick={() => setMenuOpen(prev => !prev)}
+          onClick={() => setMenuOpen((prev) => !prev)}
         >
           <HamburgerIcon open={menuOpen} />
         </button>

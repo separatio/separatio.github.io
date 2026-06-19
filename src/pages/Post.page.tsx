@@ -7,9 +7,7 @@ function PostPage() {
   return (
     <div className={styles.placeholder}>
       <span className={styles.eyebrow}>Post</span>
-      <p className={styles.note}>
-        {slug ? `/${slug}` : ''} — coming in WS4
-      </p>
+      <p className={styles.note}>{slug ? `/${slug}` : ''} — coming in WS4</p>
     </div>
   )
 }
