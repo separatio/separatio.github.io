@@ -7,7 +7,7 @@ export type Post = {
   title: string
   date: string
   slug: string
-  summary: string
+  summary?: string
   draft?: boolean
   content: string
 }
@@ -21,24 +21,28 @@ type FrontmatterResult = {
 
 function parseFrontmatter(raw: string): FrontmatterResult {
   const FENCE = '---'
-  if (!raw.startsWith(FENCE + '\n')) {
-    return { data: {}, content: raw }
+  // Normalize CRLF so Windows-authored posts parse identically to LF posts.
+  const normalised = raw.replace(/\r\n/g, '\n')
+
+  if (!normalised.startsWith(FENCE + '\n')) {
+    return { data: {}, content: normalised }
   }
 
-  const end = raw.indexOf('\n' + FENCE, FENCE.length)
+  const end = normalised.indexOf('\n' + FENCE, FENCE.length)
   if (end === -1) {
-    return { data: {}, content: raw }
+    return { data: {}, content: normalised }
   }
 
-  const yamlBlock = raw.slice(FENCE.length + 1, end)
-  const content = raw.slice(end + FENCE.length + 2) // skip '\n---\n'
+  const yamlBlock = normalised.slice(FENCE.length + 1, end)
+  const content = normalised.slice(end + FENCE.length + 2).trimStart() // skip '\n---\n'; drop leading blank lines
 
   const data: Record<string, string | boolean> = {}
   for (const line of yamlBlock.split('\n')) {
-    const colon = line.indexOf(':')
+    const trimmed = line.trim()
+    const colon = trimmed.indexOf(':')
     if (colon === -1) continue
-    const key = line.slice(0, colon).trim()
-    const val = line
+    const key = trimmed.slice(0, colon).trim()
+    const val = trimmed
       .slice(colon + 1)
       .trim()
       .replace(/^['"]|['"]$/g, '')

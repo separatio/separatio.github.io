@@ -20,7 +20,9 @@ function WritingPage() {
                 <Link to={`/writing/${post.slug}`} className={styles.row}>
                   <span className={styles.date}>{post.date}</span>
                   <span className={styles.title}>{post.title}</span>
-                  <span className={styles.summary}>{post.summary}</span>
+                  {post.summary && (
+                    <span className={styles.summary}>{post.summary}</span>
+                  )}
                 </Link>
               </li>
             ))}
