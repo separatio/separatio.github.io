@@ -90,3 +90,18 @@ export const allPosts: Post[] = Object.values(rawFiles)
 export function getPostBySlug(slug: string): Post | undefined {
   return allPosts.find((p) => p.slug === slug)
 }
+
+/* ── Date formatting (display only — sort uses raw ISO strings) ─────────── */
+
+const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+})
+
+export function formatPostDate(iso: string): string {
+  const date = new Date(iso)
+  // Invalid ISO strings produce an invalid Date — fall back to the raw string.
+  if (Number.isNaN(date.getTime())) return iso
+  return dateFormatter.format(date)
+}

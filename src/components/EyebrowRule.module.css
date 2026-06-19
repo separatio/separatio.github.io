@@ -6,6 +6,7 @@
 }
 
 .eyebrow {
+  margin: 0;
   font-family: var(--font-mono);
   font-weight: 400;
   font-size: var(--text-sm);

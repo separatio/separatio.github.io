@@ -12,7 +12,7 @@ function Card({ card }: { card: BuildingCard }) {
         className={`${styles.card} ${styles.cardLink}`}
         href={card.href}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
       >
         <span className={styles.index}>{card.index}</span>
         <span className={styles.name}>{card.name}</span>

@@ -10,7 +10,7 @@ function RowValue({ row }: { row: ContactRow }) {
       <a
         className={styles.value}
         href={row.href}
-        {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       >
         {row.value}
       </a>

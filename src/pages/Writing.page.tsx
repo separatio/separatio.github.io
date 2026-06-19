@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import EyebrowRule from '../components/EyebrowRule'
-import { allPosts } from '../writing/loadPosts'
+import { allPosts, formatPostDate } from '../writing/loadPosts'
 import styles from './Writing.module.css'
 
 function WritingPage() {
@@ -18,7 +18,9 @@ function WritingPage() {
             {allPosts.map((post) => (
               <li key={post.slug} className={styles.item}>
                 <Link to={`/writing/${post.slug}`} className={styles.row}>
-                  <span className={styles.date}>{post.date}</span>
+                  <span className={styles.date}>
+                    {formatPostDate(post.date)}
+                  </span>
                   <span className={styles.title}>{post.title}</span>
                   {post.summary && (
                     <span className={styles.summary}>{post.summary}</span>

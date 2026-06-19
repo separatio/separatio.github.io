@@ -2,7 +2,7 @@ import { useParams } from 'react-router'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Button from '../components/Button'
-import { getPostBySlug } from '../writing/loadPosts'
+import { getPostBySlug, formatPostDate } from '../writing/loadPosts'
 import styles from './Post.module.css'
 
 function PostPage() {
@@ -26,7 +26,7 @@ function PostPage() {
     <article className={styles.article}>
       <div className={styles.wrap}>
         <header className={styles.header}>
-          <span className={styles.date}>{post.date}</span>
+          <span className={styles.date}>{formatPostDate(post.date)}</span>
           <h1 className={styles.title}>{post.title}</h1>
         </header>
 
