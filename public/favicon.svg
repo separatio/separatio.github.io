@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Navy rounded square background -->
+  <rect width="32" height="32" rx="6" fill="#0A1A32"/>
+
+  <!-- Faint gold engineering grid -->
+  <g stroke="#C9A24E" stroke-width="0.4" opacity="0.18">
+    <line x1="8" y1="0" x2="8" y2="32"/>
+    <line x1="16" y1="0" x2="16" y2="32"/>
+    <line x1="24" y1="0" x2="24" y2="32"/>
+    <line x1="0" y1="8" x2="32" y2="8"/>
+    <line x1="0" y1="16" x2="32" y2="16"/>
+    <line x1="0" y1="24" x2="32" y2="24"/>
+  </g>
+
+  <!-- Gold registration corner ticks -->
+  <g stroke="#C9A24E" stroke-width="1" stroke-linecap="round" opacity="0.75">
+    <!-- top-left -->
+    <line x1="3" y1="5" x2="3" y2="3"/><line x1="3" y1="3" x2="5" y2="3"/>
+    <!-- top-right -->
+    <line x1="29" y1="5" x2="29" y2="3"/><line x1="29" y1="3" x2="27" y2="3"/>
+    <!-- bottom-left -->
+    <line x1="3" y1="27" x2="3" y2="29"/><line x1="3" y1="29" x2="5" y2="29"/>
+    <!-- bottom-right -->
+    <line x1="29" y1="27" x2="29" y2="29"/><line x1="29" y1="29" x2="27" y2="29"/>
+  </g>
+
+  <!-- "AR" monogram in gold, monospace-weight -->
+  <text
+    x="16"
+    y="21"
+    font-family="'IBM Plex Mono', 'Courier New', monospace"
+    font-size="13"
+    font-weight="500"
+    fill="#C9A24E"
+    text-anchor="middle"
+    letter-spacing="-0.5"
+  >AR</text>
+</svg>

@@ -96,3 +96,10 @@
     gap: var(--space-3xs);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .node,
+  .accomplishment {
+    transition: none;
+  }
+}
