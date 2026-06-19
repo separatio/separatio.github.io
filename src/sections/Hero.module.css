@@ -5,9 +5,10 @@
   min-height: 100vh;
   display: flex;
   align-items: center;
-  /* Clear the fixed 56px nav. */
-  padding: calc(56px + var(--space-2xl)) var(--space-lg) var(--space-2xl);
-  scroll-margin-top: 56px;
+  /* Clear the fixed nav. */
+  padding: calc(var(--nav-height) + var(--space-2xl)) var(--gutter)
+    var(--space-2xl);
+  scroll-margin-top: var(--nav-height);
 }
 
 .inner {
@@ -81,7 +82,7 @@
 
 @media (max-width: 600px) {
   .hero {
-    padding-top: calc(56px + var(--space-xl));
+    padding-top: calc(var(--nav-height) + var(--space-xl));
   }
 
   .name {

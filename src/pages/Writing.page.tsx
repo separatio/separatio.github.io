@@ -21,10 +21,12 @@ function WritingPage() {
                   <span className={styles.date}>
                     {formatPostDate(post.date)}
                   </span>
-                  <span className={styles.title}>{post.title}</span>
-                  {post.summary && (
-                    <span className={styles.summary}>{post.summary}</span>
-                  )}
+                  <span className={styles.titleStack}>
+                    <span className={styles.title}>{post.title}</span>
+                    {post.summary && (
+                      <span className={styles.summary}>{post.summary}</span>
+                    )}
+                  </span>
                 </Link>
               </li>
             ))}

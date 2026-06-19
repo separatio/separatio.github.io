@@ -8,9 +8,10 @@
 .eyebrow {
   margin: 0;
   font-family: var(--font-mono);
-  font-weight: 400;
-  font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wide);
+  font-weight: 500;
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--gold);
 }

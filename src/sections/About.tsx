@@ -23,7 +23,7 @@ function About() {
           </ul>
           <div className={styles.bodyCol}>
             <p className={styles.body}>
-              I&apos;m a builder and operator with 10+ years in software
+              I&apos;m a builder and operator with 12+ years in software
               quality, and I treat quality as defect prevention rather than test
               execution — designing systems so the bug never ships, not just
               catching it afterward. Today I build and run multi-tenant SaaS,

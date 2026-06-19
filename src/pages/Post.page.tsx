@@ -36,9 +36,9 @@ function PostPage() {
           </ReactMarkdown>
         </div>
 
-        <footer className={styles.footer}>
+        <div className={styles.postNav}>
           <Button to="/writing">Back to writing</Button>
-        </footer>
+        </div>
       </div>
     </article>
   )

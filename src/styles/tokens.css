@@ -72,7 +72,11 @@
   --space-3xl: 9rem; /* 144 */
 
   /* ── Reading measure ────────────────────────────────────────────── */
-  --reading-max: 68ch;
+  --reading-max: 62ch;
+
+  /* ── Layout ─────────────────────────────────────────────────────── */
+  --nav-height: 56px;
+  --gutter: var(--space-lg); /* section inline padding; tightens on phones */
 
   /* ── Easing + duration ──────────────────────────────────────────── */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -81,4 +85,11 @@
   --duration-fast: 150ms;
   --duration-base: 280ms;
   --duration-slow: 600ms;
+}
+
+/* Phones get a tighter inline gutter so content isn't cramped on narrow screens. */
+@media (max-width: 600px) {
+  :root {
+    --gutter: var(--space-md);
+  }
 }

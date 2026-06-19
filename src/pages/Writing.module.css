@@ -2,8 +2,8 @@
    Experience row vocabulary. */
 
 .section {
-  padding: var(--space-2xl) var(--space-lg);
-  margin-top: 56px; /* clear the fixed nav */
+  padding: calc(var(--nav-height) + var(--space-lg)) var(--gutter)
+    var(--space-2xl);
 }
 
 .wrap {
@@ -36,10 +36,9 @@
 
 .row {
   display: grid;
-  grid-template-columns: 10rem 1fr;
-  grid-template-rows: auto auto;
-  column-gap: var(--space-md);
-  row-gap: var(--space-3xs);
+  grid-template-columns: 7rem 1fr;
+  column-gap: var(--space-lg);
+  align-items: baseline;
   padding: var(--space-md) 0;
   text-decoration: none;
   transition: background-color var(--duration-fast) var(--ease-out);
@@ -53,11 +52,10 @@
   color: var(--gold);
 }
 
-/* Date — mono gold, spans first column rows */
+/* Date — muted mono gold kicker in the left rail */
 .date {
   grid-column: 1;
-  grid-row: 1 / span 2;
-  align-self: center;
+  align-self: baseline;
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   letter-spacing: 0.04em;
@@ -65,20 +63,26 @@
   white-space: nowrap;
 }
 
-/* Title */
-.title {
+/* Title + summary share one left edge in column 2 */
+.titleStack {
   grid-column: 2;
-  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+/* Title — primary row anchor */
+.title {
   font-family: var(--font-mono);
-  font-size: var(--text-base);
+  font-size: var(--text-md);
+  font-weight: 500;
   color: var(--text-primary);
   transition: color var(--duration-fast) var(--ease-out);
 }
 
 /* Summary */
 .summary {
-  grid-column: 2;
-  grid-row: 2;
+  max-width: var(--reading-max);
   font-family: var(--font-sans);
   font-size: var(--text-sm);
   color: var(--text-secondary);
@@ -87,26 +91,19 @@
 
 /* ── Responsive ─────────────────────────────────────────────────────── */
 
-@media (max-width: 520px) {
+@media (max-width: 768px) {
   .row {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    gap: var(--space-3xs);
+    row-gap: var(--space-2xs);
+  }
+
+  .date,
+  .titleStack {
+    grid-column: 1;
   }
 
   .date {
-    grid-column: 1;
-    grid-row: 1;
-    align-self: auto;
-  }
-
-  .title {
-    grid-row: 2;
-  }
-
-  .summary {
-    grid-column: 1;
-    grid-row: 3;
+    margin-bottom: var(--space-3xs);
   }
 }
 

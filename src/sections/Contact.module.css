@@ -1,8 +1,8 @@
 /* Contact — `LABEL  value` rows with hairline dividers, echoing the business
    card. */
 .section {
-  padding: var(--space-2xl) var(--space-lg);
-  scroll-margin-top: 56px;
+  padding: var(--space-lg) var(--gutter) var(--space-2xl);
+  scroll-margin-top: var(--nav-height);
 }
 
 .wrap {

@@ -80,8 +80,8 @@ a {
 .label {
   font-family: var(--font-mono);
   font-weight: 400;
-  font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wide);
+  font-size: 0.8125rem; /* 13px — nudged up from --text-sm for legibility */
+  letter-spacing: 0.14em; /* tighter than --tracking-wide so it stays readable */
   text-transform: uppercase;
   color: var(--gold);
 }

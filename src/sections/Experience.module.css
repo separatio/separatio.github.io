@@ -1,8 +1,8 @@
 /* Experience — vertical timeline with a gold rail and node markers, newest
    first. */
 .section {
-  padding: var(--space-2xl) var(--space-lg);
-  scroll-margin-top: 56px;
+  padding: var(--space-lg) var(--gutter) var(--space-2xl);
+  scroll-margin-top: var(--nav-height);
 }
 
 .wrap {
@@ -81,7 +81,7 @@
 .accomplishment {
   margin-top: var(--space-2xs);
   max-width: var(--reading-max);
-  font-size: var(--text-base);
+  font-size: 1.0625rem; /* 17px — matches Building .desc for body consistency */
   line-height: var(--leading-normal);
   color: var(--text-secondary);
 }

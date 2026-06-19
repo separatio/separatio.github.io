@@ -24,7 +24,7 @@ function Hero() {
         <p className={`${styles.line} ${styles.name}`}>ALEX RĂDULESCU</p>
 
         <p className={`${styles.line} ${styles.subhead}`}>
-          10+ yrs in software quality · Building SaaS + agent infrastructure
+          12+ yrs in software quality · Building SaaS + agent infrastructure
           with Claude Code
         </p>
 

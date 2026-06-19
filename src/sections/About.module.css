@@ -1,7 +1,7 @@
 /* About — section header + two-column principle chips / long-form body. */
 .section {
-  padding: var(--space-2xl) var(--space-lg);
-  scroll-margin-top: 56px;
+  padding: var(--space-lg) var(--gutter) var(--space-2xl);
+  scroll-margin-top: var(--nav-height);
 }
 
 .wrap {
@@ -61,5 +61,15 @@
 
   .body {
     font-size: var(--text-base);
+  }
+}
+
+@media (max-width: 520px) {
+  .chips {
+    flex-direction: column;
+  }
+
+  .chip {
+    width: 100%;
   }
 }
