@@ -63,11 +63,6 @@ a {
   text-decoration: none;
 }
 
-p {
-  max-width: var(--reading-max);
-  color: var(--text-secondary);
-}
-
 /* ── Selection + focus ──────────────────────────────────────────── */
 ::selection {
   background: var(--gold);
@@ -81,7 +76,8 @@ p {
 }
 
 /* ── Type-role utilities ────────────────────────────────────────── */
-.eyebrow {
+.eyebrow,
+.label {
   font-family: var(--font-mono);
   font-weight: 400;
   font-size: var(--text-sm);
@@ -97,15 +93,6 @@ p {
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-snug);
   color: var(--text-primary);
-}
-
-.label {
-  font-family: var(--font-mono);
-  font-weight: 400;
-  font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--gold);
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────── */

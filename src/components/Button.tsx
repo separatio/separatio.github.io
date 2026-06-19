@@ -33,7 +33,7 @@ function Button(props: ButtonProps) {
     ? `${styles.button} ${props.className}`
     : styles.button
 
-  if ('href' in props && props.href !== undefined) {
+  if ('href' in props) {
     const { href, download, children } = props
     return (
       <a className={className} href={href} download={download}>
