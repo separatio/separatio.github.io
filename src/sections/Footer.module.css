@@ -1,0 +1,23 @@
+/* Footer — gold hairline + centered mono line. */
+.footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--gutter) var(--space-2xl);
+}
+
+.rule {
+  height: var(--rule-thickness);
+  border: 0;
+  background: var(--rule-color);
+  opacity: var(--rule-opacity);
+}
+
+.line {
+  margin-top: var(--space-lg);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem; /* ~11.2px — nudged above sub-10px for the copyright line */
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}

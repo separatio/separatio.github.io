@@ -1,0 +1,38 @@
+/* Bordered gold CTA: 1px gold border, mono uppercase label, transparent fill,
+   restrained gold-wash on hover. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  padding: var(--space-xs) var(--space-md);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--gold);
+  border-radius: 1px;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.button:hover {
+  /* faint gold tint wash */
+  background-color: rgba(var(--gold-rgb), 0.1);
+  box-shadow: 0 0 0 1px rgba(var(--gold-rgb), 0.25);
+}
+
+.button:active {
+  background-color: rgba(var(--gold-rgb), 0.16);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}

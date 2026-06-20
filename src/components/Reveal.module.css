@@ -1,0 +1,19 @@
+/* Scroll-reveal: fade + small upward lift. `.revealed` is the natural visible
+   end-state — present from initial render so content is visible before JS runs.
+   useReveal temporarily removes `.revealed` when arming the IntersectionObserver,
+   then re-adds it on intersection. The global `[data-reveal]` reduced-motion rule
+   keeps content visible by neutralising both classes. */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.revealed {
+  opacity: 1;
+  transform: none;
+}

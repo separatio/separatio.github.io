@@ -1,1 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#e3e3e3"><g><rect fill="none" height="24" width="24"/></g><g><path d="M14.05,17.58l-0.01,0.01l-2.4-2.4l1.06-1.06l1.35,1.35L16.54,13l1.06,1.06 l-3.54,3.54L14.05,17.58z M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10s10-4.5,10-10S17.5,2,12,2z M7.34,6.28l1.41,1.41l1.41-1.41 l1.06,1.06L9.81,8.75l1.41,1.41l-1.06,1.06L8.75,9.81l-1.41,1.41l-1.06-1.06l1.41-1.41L6.28,7.34L7.34,6.28z M12,20 c-2.2,0-4.2-0.9-5.7-2.3L17.7,6.3C19.1,7.8,20,9.8,20,12C20,16.4,16.4,20,12,20z" fill-rule="evenodd"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Navy rounded square background -->
+  <rect width="32" height="32" rx="6" fill="#0A1A32"/>
+
+  <!-- Faint gold engineering grid -->
+  <g stroke="#C9A24E" stroke-width="0.4" opacity="0.18">
+    <line x1="8" y1="0" x2="8" y2="32"/>
+    <line x1="16" y1="0" x2="16" y2="32"/>
+    <line x1="24" y1="0" x2="24" y2="32"/>
+    <line x1="0" y1="8" x2="32" y2="8"/>
+    <line x1="0" y1="16" x2="32" y2="16"/>
+    <line x1="0" y1="24" x2="32" y2="24"/>
+  </g>
+
+  <!-- Gold registration corner ticks -->
+  <g stroke="#C9A24E" stroke-width="1" stroke-linecap="round" opacity="0.75">
+    <!-- top-left -->
+    <line x1="3" y1="5" x2="3" y2="3"/><line x1="3" y1="3" x2="5" y2="3"/>
+    <!-- top-right -->
+    <line x1="29" y1="5" x2="29" y2="3"/><line x1="29" y1="3" x2="27" y2="3"/>
+    <!-- bottom-left -->
+    <line x1="3" y1="27" x2="3" y2="29"/><line x1="3" y1="29" x2="5" y2="29"/>
+    <!-- bottom-right -->
+    <line x1="29" y1="27" x2="29" y2="29"/><line x1="29" y1="29" x2="27" y2="29"/>
+  </g>
+
+  <!-- "AR" monogram in gold, monospace-weight -->
+  <text
+    x="16"
+    y="21"
+    font-family="'IBM Plex Mono', 'Courier New', monospace"
+    font-size="13"
+    font-weight="500"
+    fill="#C9A24E"
+    text-anchor="middle"
+    letter-spacing="-0.5"
+  >AR</text>
+</svg>

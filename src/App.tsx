@@ -1,36 +1,37 @@
-import CssBaseline from '@mui/material/CssBaseline'
-import ResponsiveAppBar from './components/AppBar/ResponsiveAppBar'
+import { Routes, Route } from 'react-router'
+import GridField from './components/GridField'
+import Nav from './components/Nav/Nav'
+import Footer from './sections/Footer'
+import { useHashScroll } from './hooks/useHashScroll'
+import LandingPage from './pages/Landing.page'
+import WritingPage from './pages/Writing.page'
+import PostPage from './pages/Post.page'
+import NotFound from './pages/NotFound'
+import styles from './App.module.css'
 
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import HomePage from './pages/Home.page'
-import ContactPage from './pages/Contact.page'
-import BlogPage from './pages/Blog.page'
-import ProjectsPage from './pages/ProjectsPage'
+function AppRoutes() {
+  useHashScroll()
 
-import { Route, Routes } from 'react-router'
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-  typography: {
-    fontFamily: ['"Roboto Mono", monospace'].join(','),
-  },
-})
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/writing" element={<WritingPage />} />
+      <Route path="/writing/:slug" element={<PostPage />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  )
+}
 
 function App() {
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <Routes>
-        <Route element={<ResponsiveAppBar />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="contact" element={<ContactPage />} />
-          <Route path="blog" element={<BlogPage />} />
-          <Route path="projects" element={<ProjectsPage />} />
-        </Route>
-      </Routes>
-    </ThemeProvider>
+    <div className={styles.shell}>
+      <GridField />
+      <Nav />
+      <main className={styles.main}>
+        <AppRoutes />
+      </main>
+      <Footer />
+    </div>
   )
 }
 

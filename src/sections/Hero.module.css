@@ -1,0 +1,105 @@
+/* Hero — full-height landing panel, framed by CornerMarks. Lines fade-up on
+   load with a staggered animation-delay. */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  /* Clear the fixed nav. */
+  padding: calc(var(--nav-height) + var(--space-2xl)) var(--gutter)
+    var(--space-2xl);
+  scroll-margin-top: var(--nav-height);
+}
+
+.inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Staggered load reveal — each line starts hidden and animates up. */
+.line {
+  opacity: 0;
+  animation: hero-rise var(--duration-slow) var(--ease-out) both;
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.eyebrow {
+  animation-delay: 60ms;
+}
+
+.headline {
+  margin-top: var(--space-md);
+  max-width: 18ch;
+  animation-delay: 160ms;
+}
+
+.name {
+  margin-top: var(--space-lg);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-2xl);
+  letter-spacing: var(--tracking-snug);
+  color: var(--text-primary);
+  animation-delay: 280ms;
+}
+
+.subhead {
+  margin-top: var(--space-md);
+  max-width: 52ch;
+  font-size: var(--text-md);
+  color: var(--text-secondary);
+  animation-delay: 400ms;
+}
+
+.tagline {
+  margin-top: var(--space-sm);
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  opacity: 0; /* overridden by animation end-state */
+  animation-delay: 500ms;
+}
+
+.ctas {
+  margin-top: var(--space-xl);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  animation-delay: 620ms;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding-top: calc(var(--nav-height) + var(--space-xl));
+  }
+
+  .name {
+    font-size: var(--text-xl);
+  }
+
+  .subhead {
+    font-size: var(--text-base);
+  }
+}
+
+/* Reduced motion: no animation, every line fully visible in its final state. */
+@media (prefers-reduced-motion: reduce) {
+  .line,
+  .tagline {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

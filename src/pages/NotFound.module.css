@@ -1,0 +1,29 @@
+/* On-brand 404 — final (not a stub) */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--nav-height));
+  margin-top: var(--nav-height);
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  color: var(--gold);
+  opacity: 0.85;
+}
+
+.message {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: var(--reading-max);
+}

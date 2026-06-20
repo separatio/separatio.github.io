@@ -1,0 +1,248 @@
+/* Post — single-post reading view. Blueprint-tuned markdown typography inside
+   .prose, constrained to --reading-max. */
+
+/* ── Article shell ──────────────────────────────────────────────────── */
+
+.article {
+  padding: calc(var(--nav-height) + var(--space-lg)) var(--space-lg)
+    var(--space-2xl);
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Post header ────────────────────────────────────────────────────── */
+
+.header {
+  margin-bottom: var(--space-xl);
+  max-width: var(--reading-max);
+}
+
+.date {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  margin-bottom: var(--space-xs);
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-snug);
+  color: var(--text-primary);
+}
+
+/* ── Not-found state ────────────────────────────────────────────────── */
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: calc(100vh - var(--nav-height));
+  margin-block-start: var(--nav-height);
+  padding: var(--space-2xl) var(--space-lg);
+  gap: var(--space-md);
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.notFoundTitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.notFoundNote {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+/* ── Prose container ────────────────────────────────────────────────── */
+
+.prose {
+  max-width: var(--reading-max);
+  font-family: var(--font-sans);
+  font-size: 1.125rem; /* 18px — generous long-form read, up from 16px floor */
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* Vertical rhythm — all block elements share the same gap. */
+.prose > * + * {
+  margin-top: var(--space-md);
+}
+
+/* ── Headings ───────────────────────────────────────────────────────── */
+
+.prose :global(h1),
+.prose :global(h2),
+.prose :global(h3),
+.prose :global(h4) {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  line-height: var(--leading-snug);
+  color: var(--text-primary);
+  margin-top: var(--space-lg);
+}
+
+.prose :global(h1) {
+  font-size: var(--text-xl);
+}
+.prose :global(h2) {
+  font-size: var(--text-lg);
+}
+.prose :global(h3) {
+  font-size: var(--text-md);
+}
+.prose :global(h4) {
+  font-size: var(--text-base);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── Links ──────────────────────────────────────────────────────────── */
+
+.prose :global(a) {
+  color: var(--gold);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--gold-rgb), 0.45);
+  text-underline-offset: 3px;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    text-decoration-color var(--duration-fast) var(--ease-out);
+}
+
+.prose :global(a:hover) {
+  color: var(--text-primary);
+  text-decoration-color: rgba(var(--gold-rgb), 0.8);
+}
+
+/* ── Inline code ────────────────────────────────────────────────────── */
+
+.prose :global(code) {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  color: var(--text-tertiary);
+  background: rgba(var(--gold-rgb), 0.07);
+  border: 1px solid rgba(var(--gold-rgb), 0.18);
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+}
+
+/* ── Code blocks (pre > code) ───────────────────────────────────────── */
+
+.prose :global(pre) {
+  background: rgba(var(--gold-rgb), 0.05);
+  border: 1px solid rgba(var(--gold-rgb), 0.2);
+  border-radius: 4px;
+  padding: var(--space-md);
+  overflow-x: auto;
+}
+
+.prose :global(pre code) {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* ── Blockquotes ────────────────────────────────────────────────────── */
+
+.prose :global(blockquote) {
+  border-left: 2px solid var(--gold);
+  padding-left: var(--space-md);
+  color: var(--text-secondary);
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* ── Lists ──────────────────────────────────────────────────────────── */
+
+.prose :global(ul),
+.prose :global(ol) {
+  padding-left: var(--space-md);
+}
+
+.prose :global(li) {
+  margin-top: var(--space-2xs);
+}
+
+.prose :global(li::marker) {
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+/* ── Tables (GFM) ───────────────────────────────────────────────────── */
+
+.prose :global(table) {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.prose :global(th) {
+  font-weight: 500;
+  color: var(--gold);
+  text-align: left;
+  padding: var(--space-xs) var(--space-sm);
+  border-bottom: 1px solid rgba(var(--gold-rgb), 0.4);
+}
+
+.prose :global(td) {
+  color: var(--text-secondary);
+  padding: var(--space-xs) var(--space-sm);
+  border-bottom: 1px solid rgba(var(--gold-rgb), 0.1);
+}
+
+.prose :global(tr:last-child td) {
+  border-bottom: none;
+}
+
+/* ── Horizontal rule ────────────────────────────────────────────────── */
+
+.prose :global(hr) {
+  border: none;
+  border-top: 1px solid rgba(var(--gold-rgb), 0.3);
+  margin: var(--space-lg) 0;
+}
+
+/* ── Paragraphs ─────────────────────────────────────────────────────── */
+
+.prose :global(p) {
+  color: var(--text-secondary);
+}
+
+/* ── Post nav (back-to-writing) ─────────────────────────────────────── */
+
+.postNav {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid rgba(var(--gold-rgb), 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prose :global(a) {
+    transition: none;
+  }
+}
