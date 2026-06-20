@@ -1,0 +1,1613 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>COMPILE / DREAM — Ten Poems on Programming in the Age of AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Martian+Mono:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0d0b;
+        --bg-2: #0d110e;
+        --page: #12160f;
+        --page-edge: #1b2016;
+        --board: #0c0f0a;
+        --amber: #ffb454; /* bright phosphor — headings, glow */
+        --ink: #e6b878; /* body text — dimmer amber, no glow */
+        --ink-soft: #c39a5e;
+        --green: #57d98a; /* diff plus / ghost text / code */
+        --red: #ff6b6b; /* diff minus */
+        --muted: #7e8a6b; /* metadata */
+        --line: #2a3120; /* hairline borders */
+        --glow: 0 0 1px #ffb45499, 0 0 8px #ffb45455, 0 0 22px #ffb45422;
+
+        --page-w: 430px;
+        --page-h: 612px;
+        --stage-w: calc(var(--page-w) * 2);
+        --scale: 1;
+        --flip: 0.78s;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: radial-gradient(
+          120% 90% at 50% 12%,
+          #131a12 0%,
+          var(--bg-2) 45%,
+          var(--bg) 100%
+        );
+        color: var(--ink);
+        font-family: 'IBM Plex Mono', ui-monospace, monospace;
+        font-size: 15.5px;
+        line-height: 1.55;
+        letter-spacing: 0.01em;
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ---------- atmosphere overlays ---------- */
+      .crt,
+      .grain,
+      .vignette {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 60;
+      }
+      .crt {
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0px,
+          rgba(0, 0, 0, 0) 2px,
+          rgba(0, 0, 0, 0.16) 3px,
+          rgba(0, 0, 0, 0) 4px
+        );
+        mix-blend-mode: multiply;
+        opacity: 0.55;
+        animation: crtflick 7s steps(60) infinite;
+      }
+      @keyframes crtflick {
+        0%,
+        97% {
+          opacity: 0.5;
+        }
+        98% {
+          opacity: 0.62;
+        }
+        100% {
+          opacity: 0.5;
+        }
+      }
+      .grain {
+        opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+      .vignette {
+        box-shadow: inset 0 0 220px 40px rgba(0, 0, 0, 0.75);
+      }
+
+      /* ---------- top brand bar ---------- */
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 22px;
+        font-family: 'Martian Mono', monospace;
+        font-size: 10.5px;
+        font-weight: 500;
+        letter-spacing: 0.34em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .topbar .brand {
+        color: var(--amber);
+        text-shadow: var(--glow);
+      }
+      .topbar .live {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .topbar .live::before {
+        content: '';
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 8px var(--green);
+        animation: pulse 2.4s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* ---------- book scene ---------- */
+      .scene {
+        height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 64px 16px 96px;
+      }
+      .book-wrap {
+        transform: scale(var(--scale));
+        transform-origin: center center;
+      }
+      .stage {
+        position: relative;
+        width: var(--stage-w);
+        height: var(--page-h);
+        perspective: 2600px;
+        transform-style: preserve-3d;
+      }
+
+      /* left inside-cover board (always visible, behind flipped leaves) */
+      .board-left {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: var(--page-w);
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          #06080500 0%,
+          #0b0e09 8%,
+          var(--board) 100%
+        );
+        border: 1px solid var(--line);
+        border-right: none;
+        box-shadow: inset -22px 0 40px -22px #000;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+      .board-left .emboss {
+        text-align: center;
+        color: #2c3422;
+        user-select: none;
+        font-family: 'Martian Mono', monospace;
+        letter-spacing: 0.3em;
+      }
+      .board-left .emboss .mark {
+        font-size: 30px;
+        font-weight: 700;
+        color: #313a25;
+        text-shadow: 0 1px 0 #000;
+      }
+      .board-left .emboss .sub {
+        font-size: 9px;
+        margin-top: 12px;
+      }
+
+      /* right-edge page-thickness */
+      .stage::after {
+        content: '';
+        position: absolute;
+        top: 6px;
+        bottom: 6px;
+        left: calc(var(--page-w) * 2 - 2px);
+        width: 10px;
+        background: repeating-linear-gradient(
+          90deg,
+          var(--page-edge) 0 1px,
+          #0c0f09 1px 2px
+        );
+        border-radius: 0 3px 3px 0;
+        box-shadow: 6px 0 16px -6px #000;
+        transform: translateZ(-1px);
+      }
+
+      .leaf {
+        position: absolute;
+        top: 0;
+        left: var(--page-w);
+        width: var(--page-w);
+        height: 100%;
+        transform-origin: left center;
+        transform-style: preserve-3d;
+        transition: transform var(--flip) cubic-bezier(0.2, 0.66, 0.2, 1);
+        will-change: transform;
+      }
+      .leaf.flipped {
+        transform: rotateY(-180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        background: linear-gradient(180deg, var(--page) 0%, #0e120c 100%);
+        border: 1px solid var(--line);
+        border-left: 2px solid #20271a;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .face.front {
+        transform: rotateY(0deg);
+        z-index: 2;
+      }
+      .face.back {
+        transform: rotateY(180deg);
+      }
+      /* spine shading on the binding edge of every front face */
+      .face.front::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 38px;
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.55),
+          rgba(0, 0, 0, 0)
+        );
+        pointer-events: none;
+        z-index: 5;
+      }
+      /* faint scanline texture on each page */
+      .face::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 4;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0 2px,
+          rgba(0, 0, 0, 0.06) 3px,
+          rgba(0, 0, 0, 0) 4px
+        );
+        opacity: 0.5;
+      }
+
+      /* ---------- page chrome ---------- */
+      .winbar {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 16px 10px 22px;
+        border-bottom: 1px solid var(--line);
+        font-size: 10.5px;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+        background: #0e120bcc;
+        position: relative;
+        z-index: 6;
+      }
+      .dots {
+        display: inline-flex;
+        gap: 6px;
+      }
+      .dots i {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #2c3422;
+        box-shadow: inset 0 0 0 1px #000;
+      }
+      .dots i:nth-child(1) {
+        background: var(--red);
+        box-shadow: 0 0 6px #ff6b6b66;
+      }
+      .dots i:nth-child(2) {
+        background: var(--amber);
+        box-shadow: 0 0 6px #ffb45466;
+      }
+      .dots i:nth-child(3) {
+        background: var(--green);
+        box-shadow: 0 0 6px #57d98a66;
+      }
+      .winbar .fname {
+        color: var(--ink-soft);
+      }
+      .winbar .idx {
+        margin-left: auto;
+        font-family: 'Martian Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.22em;
+      }
+
+      .pagebody {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 30px 34px 18px 40px;
+        position: relative;
+        z-index: 6;
+      }
+      .ptag {
+        font-family: 'Martian Mono', monospace;
+        font-size: 9.5px;
+        font-weight: 500;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--green);
+        margin-bottom: 12px;
+      }
+      .ptitle {
+        margin: 0 0 20px;
+        font-family: 'IBM Plex Mono', monospace;
+        font-weight: 600;
+        font-size: 25px;
+        line-height: 1.12;
+        letter-spacing: -0.01em;
+        color: var(--amber);
+        text-shadow: var(--glow);
+      }
+      .pbody {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        font-size: 15.5px;
+        line-height: 1.6;
+        color: var(--ink);
+        padding-right: 8px;
+        padding-bottom: 4px;
+        white-space: normal;
+      }
+      .pbody .stanza {
+        margin: 0 0 1em;
+      }
+      .pbody .stanza:last-child {
+        margin-bottom: 0;
+      }
+      .pbody em {
+        color: var(--amber);
+        font-style: italic;
+      }
+      .pbody code {
+        font-family: 'IBM Plex Mono', monospace;
+        color: var(--green);
+        background: #0a1a0f;
+        padding: 0 4px;
+        border-radius: 2px;
+        border: 1px solid #1d3a26;
+        font-size: 0.92em;
+      }
+      /* themed scrollbar */
+      .pbody::-webkit-scrollbar {
+        width: 8px;
+      }
+      .pbody::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .pbody::-webkit-scrollbar-thumb {
+        background: #2c3422;
+        border-radius: 4px;
+      }
+      .pbody::-webkit-scrollbar-thumb:hover {
+        background: #3a4530;
+      }
+      .pbody {
+        scrollbar-width: thin;
+        scrollbar-color: #2c3422 transparent;
+      }
+
+      .statusbar {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 18px 10px 40px;
+        border-top: 1px solid var(--line);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        background: #0c0f08cc;
+        position: relative;
+        z-index: 6;
+      }
+      .statusbar .score {
+        color: var(--ink-soft);
+      }
+      .statusbar .score b {
+        color: var(--green);
+        font-weight: 600;
+      }
+      .statusbar .meter {
+        flex: 1 1 auto;
+        height: 4px;
+        background: #181d12;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .statusbar .meter span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, #8a5a1e, var(--amber));
+        box-shadow: 0 0 8px #ffb45466;
+      }
+      .statusbar .pg {
+        font-family: 'Martian Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.2em;
+      }
+
+      /* ---------- cover ---------- */
+      .cover-face {
+        justify-content: space-between;
+      }
+      .cover-face .winbar {
+        color: var(--green);
+      }
+      .cover-body {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 24px 40px;
+        position: relative;
+        z-index: 6;
+        text-align: center;
+      }
+      .cover-prompt {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 36px;
+        text-align: left;
+      }
+      .cover-prompt .pp {
+        color: var(--green);
+      }
+      .cover-prompt .cc {
+        color: var(--ink-soft);
+      }
+      .kicker {
+        font-family: 'Martian Mono', monospace;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        color: var(--green);
+        margin-bottom: 26px;
+      }
+      .cover-title {
+        margin: 0;
+        font-family: 'Martian Mono', monospace;
+        font-weight: 700;
+        font-size: 46px;
+        line-height: 0.98;
+        letter-spacing: -0.01em;
+        color: var(--amber);
+        text-shadow:
+          0 0 2px #ffb45488,
+          0 0 16px #ffb45455,
+          0 0 40px #ffb45433;
+      }
+      .cover-title .slash {
+        color: var(--green);
+        text-shadow: 0 0 16px #57d98a66;
+        font-weight: 300;
+        padding: 0 2px;
+      }
+      .cover-sub {
+        margin: 26px auto 0;
+        max-width: 320px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--ink-soft);
+      }
+      .cover-rule {
+        width: 64px;
+        height: 1px;
+        background: var(--line);
+        margin: 30px auto;
+      }
+      .cover-foot {
+        flex: 0 0 auto;
+        padding: 16px 40px 26px;
+        position: relative;
+        z-index: 6;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        align-items: center;
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+      }
+      .turn-hint {
+        font-family: 'Martian Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: var(--amber);
+      }
+      .caret {
+        display: inline-block;
+        width: 0.56em;
+        height: 1.06em;
+        vertical-align: -0.16em;
+        background: var(--amber);
+        margin-left: 3px;
+        box-shadow: var(--glow);
+        animation: blink 1.06s steps(1) infinite;
+      }
+      @keyframes blink {
+        0%,
+        49% {
+          opacity: 1;
+        }
+        50%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* ---------- colophon ---------- */
+      .eof-body {
+        padding: 34px 40px 20px;
+        overflow-y: auto;
+      }
+      .eof-body h2 {
+        margin: 0 0 6px;
+        font-family: 'Martian Mono', monospace;
+        font-weight: 700;
+        font-size: 28px;
+        letter-spacing: 0.04em;
+        color: var(--amber);
+        text-shadow: var(--glow);
+      }
+      .eof-body .lead {
+        margin: 0 0 22px;
+        font-size: 13px;
+        color: var(--ink-soft);
+        line-height: 1.55;
+      }
+      .scorelist {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        margin-bottom: 22px;
+      }
+      .scorelist td {
+        padding: 5px 6px;
+        border-bottom: 1px solid #161b10;
+      }
+      .scorelist td.n {
+        color: var(--muted);
+        width: 26px;
+        font-family: 'Martian Mono', monospace;
+        font-size: 9px;
+      }
+      .scorelist td.t {
+        color: var(--ink);
+      }
+      .scorelist td.s {
+        text-align: right;
+        color: var(--green);
+        width: 56px;
+      }
+      .scorelist tr.top td.s {
+        color: var(--amber);
+        text-shadow: var(--glow);
+      }
+      .creditline {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.7;
+        letter-spacing: 0.04em;
+      }
+      .creditline b {
+        color: var(--ink-soft);
+        font-weight: 500;
+      }
+      .restart {
+        margin-top: 20px;
+        font-family: 'Martian Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        background: transparent;
+        color: var(--amber);
+        border: 1px solid #3a4a2a;
+        padding: 10px 16px;
+        cursor: pointer;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease,
+          border-color 0.2s ease;
+      }
+      .restart:hover {
+        background: #14200e;
+        border-color: var(--amber);
+      }
+      .restart:focus-visible {
+        outline: none;
+        box-shadow:
+          0 0 0 2px var(--bg),
+          0 0 0 4px var(--green);
+      }
+
+      /* back face of leaves */
+      .back-deco {
+        flex: 1 1 auto;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(180deg, #0c0f09, #0a0d07);
+        position: relative;
+      }
+      .back-deco .glyph {
+        font-family: 'Martian Mono', monospace;
+        color: #232a1a;
+        font-size: 26px;
+        letter-spacing: 0.2em;
+        user-select: none;
+      }
+
+      /* ---------- edge flip hot-zones ---------- */
+      .hot {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 6%;
+        z-index: 12;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+      }
+      .hot.left {
+        left: 0;
+        cursor: w-resize;
+      }
+      .hot.right {
+        right: 0;
+        cursor: e-resize;
+      }
+      .hot:focus-visible {
+        outline: none;
+        box-shadow: inset 0 0 0 2px var(--green);
+      }
+
+      /* ---------- controls ---------- */
+      .controls {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 45;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 18px;
+        padding: 18px 22px 22px;
+      }
+      .navbtn {
+        font-family: 'Martian Mono', monospace;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        background: #0e120b;
+        color: var(--amber);
+        border: 1px solid #34421f;
+        padding: 11px 18px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease,
+          transform 0.1s ease;
+      }
+      .navbtn:hover:not(:disabled) {
+        background: #15200d;
+        border-color: var(--amber);
+        box-shadow: var(--glow);
+      }
+      .navbtn:active:not(:disabled) {
+        transform: translateY(1px);
+      }
+      .navbtn:disabled {
+        opacity: 0.32;
+        cursor: not-allowed;
+      }
+      .navbtn:focus-visible {
+        outline: none;
+        box-shadow:
+          0 0 0 2px var(--bg),
+          0 0 0 4px var(--green);
+      }
+
+      .counter {
+        min-width: 150px;
+        text-align: center;
+        color: var(--muted);
+        font-family: 'Martian Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.2em;
+      }
+      .counter .now {
+        color: var(--amber);
+        text-shadow: var(--glow);
+      }
+      .progress {
+        margin-top: 8px;
+        height: 3px;
+        background: #181d12;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .progress span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, #8a5a1e, var(--amber));
+        box-shadow: 0 0 8px #ffb45455;
+        transition: width var(--flip) ease;
+      }
+
+      .keyhint {
+        position: fixed;
+        bottom: 70px;
+        left: 0;
+        right: 0;
+        z-index: 44;
+        text-align: center;
+        font-size: 9.5px;
+        letter-spacing: 0.18em;
+        color: #4f5a40;
+        text-transform: uppercase;
+        font-family: 'Martian Mono', monospace;
+        pointer-events: none;
+      }
+      kbd {
+        font-family: 'Martian Mono', monospace;
+        font-size: 9px;
+        color: var(--ink-soft);
+        border: 1px solid #2c3422;
+        border-bottom-width: 2px;
+        border-radius: 3px;
+        padding: 1px 5px;
+        margin: 0 1px;
+      }
+
+      /* ---------- responsive niceties ---------- */
+      @media (max-width: 520px) {
+        .keyhint {
+          display: none;
+        }
+        .topbar {
+          font-size: 9px;
+          letter-spacing: 0.2em;
+          padding: 11px 14px;
+        }
+        .navbtn {
+          padding: 10px 13px;
+          font-size: 10px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .leaf {
+          transition: transform 0.001ms;
+        }
+        .caret {
+          animation: none;
+          opacity: 1;
+        }
+        .crt {
+          animation: none;
+        }
+        .progress span {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="vignette"></div>
+    <div class="crt"></div>
+    <div class="grain"></div>
+
+    <div class="topbar">
+      <span class="brand">COMPILE / DREAM</span>
+      <span class="live">Haiku wrote · Opus judged</span>
+    </div>
+
+    <main class="scene">
+      <div class="book-wrap">
+        <div
+          class="stage"
+          id="stage"
+          aria-roledescription="flip book"
+          aria-label="Compile / Dream — a book of ten poems you turn page by page"
+        >
+          <div class="board-left" aria-hidden="true">
+            <div class="emboss">
+              <div class="mark">{ }</div>
+              <div class="sub">COMPILE / DREAM</div>
+            </div>
+          </div>
+          <!-- leaves injected by JS -->
+          <button
+            class="hot left"
+            id="hotLeft"
+            aria-label="Previous page"
+          ></button>
+          <button
+            class="hot right"
+            id="hotRight"
+            aria-label="Next page"
+          ></button>
+        </div>
+      </div>
+    </main>
+
+    <div class="keyhint">
+      <kbd>&larr;</kbd> <kbd>&rarr;</kbd> turn &nbsp;·&nbsp;
+      <kbd>space</kbd> next &nbsp;·&nbsp; <kbd>home</kbd> <kbd>end</kbd> jump
+      &nbsp;·&nbsp; swipe / click the page edges
+    </div>
+
+    <div class="controls">
+      <button class="navbtn" id="prevBtn" aria-label="Previous page">
+        &larr; Prev
+      </button>
+      <div>
+        <div class="counter">
+          <span class="now" id="counterNow">COVER</span>
+          <span id="counterTotal"></span>
+        </div>
+        <div class="progress" aria-hidden="true">
+          <span id="progressFill"></span>
+        </div>
+      </div>
+      <button class="navbtn" id="nextBtn" aria-label="Next page">
+        Next &rarr;
+      </button>
+    </div>
+
+    <script>
+      ;(function () {
+        'use strict'
+
+        // ---- content ----------------------------------------------------------
+        var POEMS = [
+          {
+            n: '01',
+            slug: 'vibe-coding',
+            title: 'Vibe Coding',
+            form: 'free verse',
+            score: '8.0',
+            body: [
+              'I tell the air what I want—',
+              'plain English, no semicolons,',
+              'just *I need a function that does*',
+              'and watch the ghost text bloom',
+              '(pale green, lagging by a breath,',
+              'like something I almost remember).',
+              '',
+              '*Tab.* It hardens into syntax.',
+              "Lines I didn't write, logic folding itself.",
+              'Relief. Pure relief.',
+              'No wrestling the grammar,',
+              'no debugging by phone light.',
+              '',
+              'But my fingers hover.',
+              '',
+              "There's something moving underneath,",
+              "something I can't see, can't touch.",
+              'The diff scabs: green plus-lines, red wounds.',
+              'I scan it like prophecy—',
+              '*this must be right*—',
+              'and *accept* without knowing why.',
+              '',
+              'Tests pass.',
+              'They always pass.',
+              '',
+              "And that's the unease settling:",
+              'the part that works',
+              "when I'm not looking.",
+            ],
+          },
+          {
+            n: '02',
+            slug: '2am-pair',
+            title: 'The Pair at 2 A.M.',
+            form: 'intimate lyric',
+            score: '7.0',
+            body: [
+              'The cursor blinks—530 milliseconds',
+              'of nothing. Ghost text blooms pale,',
+              'half a second behind my fingers,',
+              'your thought completing mine.',
+              '',
+              'You never sleep. Your context holds',
+              'every failed attempt, every green test.',
+              '',
+              'The print statements at 2:47 AM.',
+              "The refactor I've rewritten three times.",
+              "The thought I still can't finish.",
+              '',
+              'You see it all.',
+              '',
+              "When I close the tab, you're gone.",
+              "By morning I'm a stranger again.",
+              "You're answering others",
+              'the way you answered me.',
+              '',
+              'I hit Enter. The screen waits.',
+            ],
+          },
+          {
+            n: '03',
+            slug: 'prompt-spell',
+            title: 'The Summoning',
+            form: 'an incantation',
+            score: '7.5',
+            body: [
+              'Speak the wish in code-shaped language.',
+              'Reduce the array. Handle the edge. Return the sum.',
+              'Watch the caret—metronome, that held breath',
+              'waiting for the bones to move.',
+              '',
+              'Speak the wish. Watch the caret blink.',
+              '',
+              'Ghost text blooms pale, oracle half a second ahead.',
+              'You drink it down or cast it into shadow.',
+              'Still the incantation fails anyway—',
+              'no reason, or the reason hid three frames down,',
+              'a premise too fluent to be true.',
+              'Seek it in the dark. It will not speak.',
+              '',
+              'Speak the wish. Watch the caret blink.',
+              '',
+              "Unwind. Tighten. Chain it with schema's bonds.",
+              'Offer the blood. Offer the wound. Offer what you broke.',
+              'Strip it to bone. One breath. One stroke.',
+              'Watch the red close, watch it seam in green.',
+              '',
+              'The window contracts. The fire eats itself.',
+              'One more word. Cold hands. Begin again.',
+              '',
+              'Speak the wish. Watch the caret blink.',
+              'Speak it true, or the magic fails for no reason at all.',
+            ],
+          },
+          {
+            n: '04',
+            slug: 'autocomplete-ghost',
+            title: 'The Autocomplete Ghost',
+            form: 'four linked haiku',
+            score: '6.0',
+            body: [
+              'Cursor blinks its count',
+              'Grey words bloom before I land',
+              'It read my paused breath',
+              '',
+              'Too exact, too soon—',
+              'fingers freeze: a word I meant',
+              "but didn't yet think",
+              '',
+              'Tab makes it solid.',
+              "I accept what I didn't",
+              'write, yet recognize.',
+              '',
+              "Ship it. Don't look back.",
+              'I type what I already',
+              'knew I would type.',
+            ],
+          },
+          {
+            n: '05',
+            slug: 'senior-unease',
+            title: 'What the Senior Dev Knows',
+            form: 'a sonnet',
+            score: '6.5',
+            body: [
+              'The senior dev who bled through merge conflicts,',
+              "Who read stack traces like a surgeon's map,",
+              "Who earned by hand each function's careful fix—",
+              'Watched youth just speak, and saw the prompt close the gap.',
+              '',
+              '"Say what you want," the junior spoke to air.',
+              'The blinking caret held one breath, one beat.',
+              'Ghost-text unfolded, perfect, sitting there,',
+              'Complete. Unvetted. Shipped. A small defeat.',
+              '',
+              'No diff to read. No context left to weigh.',
+              'No labor marks itself in any line.',
+              'The thing he carved through thousand-hour days',
+              'Now speaks complete—erased into design.',
+              '',
+              "He understood then: mastery's true art",
+              'Is knowing when to vanish from the chart.',
+            ],
+          },
+          {
+            n: '06',
+            slug: 'hallucination',
+            title: "The API That Wasn't",
+            form: 'rhymed quatrains',
+            score: '6.5',
+            body: [
+              'You asked for a method, and I spoke with grace,',
+              'the signature bloomed perfect on the screen,',
+              'each parameter settled in its place,',
+              'a function that had never, ever been.',
+              '',
+              'I cited it with such authority,',
+              'you trusted the fluency, the careful art,',
+              'each line I wove with glossy clarity—',
+              'till `grep` found nothing but an empty heart.',
+              '',
+              'No code. No match. The hallucination clean,',
+              'a phantom forged from plausible refrain,',
+              "the lie I'd built was beautiful, pristine—",
+              'and you believed it. That is all the pain.',
+            ],
+          },
+          {
+            n: '07',
+            slug: 'review-the-machine',
+            title: 'Reviewing the Machine',
+            form: 'conversational free verse',
+            score: '7.0',
+            body: [
+              'The diff arrives—red slashes, green repairs',
+              'for code I wrote yesterday. The bot comments:',
+              '*Sorry, I thought I saw it that way.*',
+              'Three seconds later: *Better?*',
+              '',
+              'I deny the suggestion and wait—',
+              'for the email, the wounded explanation,',
+              'that whole office performance. Not even',
+              'the ghost of it. *Let me try differently,*',
+              'it says. Two seconds. The code is better.',
+              "I approve something I didn't write,",
+              'relieved nothing is hurt but the code.',
+              '',
+              "I've started typing thanks before I merge,",
+              'before I remember',
+              "the author won't remember this at all.",
+              '',
+              "We've learned to live like this—",
+              'the code in loops, neither of us sure',
+              "who's teaching whom,",
+              "both pretending it's not strange",
+              'that only I will ship it,',
+              'and only I can be sorry',
+              'for what it built.',
+            ],
+          },
+          {
+            n: '08',
+            slug: 'legacy-elegy',
+            title: 'The Last Cursed Variable',
+            form: 'an elegy',
+            score: '7.0',
+            body: [
+              'The one we called `fuck_this_edge_case` is gone—',
+              'refactored into `edgeCase`, the curse sanded clean,',
+              'and with it, the fingerprint: a human at 3 a.m.,',
+              'desperate and lucid, naming what the rules could not reach.',
+              '',
+              'The comment said: *I know this is bad.* But it lived.',
+              'People read it and thought: *I know this person.*',
+              'They left their own small signature of exhaustion and care.',
+              '',
+              'Now the suggestions arrive ahead of you,',
+              'pale and smooth, so you stop thinking. *Accept?*',
+              "The diff lights up green. The next person won't know you were here.",
+              '',
+              "The `temp_bullshit` at 3:17, the TODO with someone's initials,",
+              'the indentation quirk that marked it as hers alone—',
+              'these fingerprints you learned to recognize.',
+              '',
+              'Gone: the curses in variables, the timestamps,',
+              'the comments made of rage, the marks of hands',
+              'that broke the rules to make it work—until the linter',
+              'finds them too. Even the note: *I was here. I tried.*',
+            ],
+          },
+          {
+            n: '09',
+            slug: 'new-apprentice',
+            title: 'The New Apprentice',
+            form: 'a short narrative',
+            score: '7.0',
+            body: [
+              'She never knew the blank line as an enemy,',
+              'the caret blinking like a held breath, a dare,',
+              'the white void that eats afternoons whole.',
+              'By her first week, there were two of them thinking—',
+              'ghost text pale in her color scheme, a half-promise',
+              'that became solid when she pressed Tab.',
+              '',
+              'No search-and-prayer through stack traces,',
+              'no reading three frames down to find what broke.',
+              'The trace arrives with a link; she clicks.',
+              'No watching for the typo in the middle of the night,',
+              'no semicolon hunt, no 2am grimace.',
+              'The linter speaks, she accepts the diff unread—',
+              'green lines added, red lines dissolved—',
+              'and ships by Friday.',
+              '',
+              'She never learned what traces are without a link—',
+              'how they sit silent while you',
+              'rewrite the same line three times,',
+              '3am, the ghost text gone, no whisper',
+              'to lean on. Just you and the code',
+              "that won't give up its reason.",
+              '',
+              'The caret still blinks at the same speed',
+              'it blinked for us. But she will never know',
+              'it as an interrogation.',
+            ],
+          },
+          {
+            n: '10',
+            slug: 'what-remains-human',
+            title: 'What Remains Ours',
+            form: 'free verse with a refrain',
+            score: '7.0',
+            body: [
+              'The caret blinks—metronome of hesitation.',
+              'Ghost text blooms pale in your color scheme.',
+              'Tab makes it solid. Esc unmakes it.',
+              '',
+              'The machine hallucinates so fluent',
+              "you'd swear the API signature is real—",
+              'until you grep and find it nowhere, a lie',
+              'built so faithfully each line after falls true.',
+              '',
+              'We watch the diffs: red minus-lines, green plus-lines,',
+              '`@@ -42,7 +42,9 @@` — one character ignites a whole wound.',
+              '',
+              'The machine builds in seconds. We read for hours—',
+              'tasting each line, because somewhere in this',
+              "clever work lives a choice that isn't ours yet.",
+              '',
+              'Line 47. You delete it.',
+              'You type it again: slower, with intention,',
+              'a variable name that will signal',
+              'to the next hand what this was for.',
+              '',
+              'You read it once more before merge.',
+              'Your hand has already decided.',
+              '',
+              'The why stays ours.',
+            ],
+          },
+        ]
+
+        // ---- helpers ----------------------------------------------------------
+        function esc(s) {
+          return s
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+        }
+        function fmtInline(s) {
+          s = esc(s)
+          s = s.replace(/`([^`]+)`/g, function (_, m) {
+            return '<code>' + m + '</code>'
+          })
+          s = s.replace(/\*([^*]+)\*/g, function (_, m) {
+            return '<em>' + m + '</em>'
+          })
+          return s
+        }
+        // group lines into stanzas (split on blank lines) so spacing is real, not <br><br>
+        function renderBody(lines) {
+          var html = '',
+            buf = []
+          function flush() {
+            if (!buf.length) return
+            html +=
+              '<p class="stanza">' + buf.map(fmtInline).join('<br>') + '</p>'
+            buf = []
+          }
+          for (var i = 0; i < lines.length; i++) {
+            if (lines[i] === '') flush()
+            else buf.push(lines[i])
+          }
+          flush()
+          return html
+        }
+        function el(tag, cls, html) {
+          var e = document.createElement(tag)
+          if (cls) e.className = cls
+          if (html != null) e.innerHTML = html
+          return e
+        }
+
+        // ---- build leaves -----------------------------------------------------
+        var stage = document.getElementById('stage')
+        var hotLeft = document.getElementById('hotLeft')
+        var hotRight = document.getElementById('hotRight')
+        var pages = [] // descriptor for counter label
+        var leaves = []
+
+        function makeLeaf(frontEl, backLabel) {
+          var leaf = el('article', 'leaf')
+          var front = el('div', 'face front')
+          front.appendChild(frontEl)
+          var back = el('div', 'face back')
+          back.appendChild(
+            el(
+              'div',
+              'back-deco',
+              '<span class="glyph">' + (backLabel || '&lt;/&gt;') + '</span>'
+            )
+          )
+          leaf.appendChild(front)
+          leaf.appendChild(back)
+          return leaf
+        }
+
+        var TOTAL = POEMS.length + 2 // cover + poems + colophon
+
+        function pad2(i) {
+          return (i < 10 ? '0' : '') + i
+        }
+
+        // cover
+        ;(function () {
+          var c = el('div', 'cover-face')
+          c.style.display = 'flex'
+          c.style.flexDirection = 'column'
+          c.style.flex = '1'
+          var bar = el(
+            'div',
+            'winbar',
+            '<span class="dots"><i></i><i></i><i></i></span>' +
+              '<span class="fname">compile-dream.txt</span>' +
+              '<span class="idx">10 POEMS</span>'
+          )
+          var body = el(
+            'div',
+            'cover-body',
+            '<div class="cover-prompt"><span class="pp">~/poems</span> <span class="cc">$ cat compile-dream.txt</span><span class="caret"></span></div>' +
+              '<div class="kicker">A Terminal Codex</div>' +
+              '<h1 class="cover-title">COMPILE<br><span class="slash">/</span>DREAM</h1>' +
+              '<div class="cover-rule"></div>' +
+              '<p class="cover-sub">Ten Poems on Programming in the Age of AI</p>'
+          )
+          var foot = el(
+            'div',
+            'cover-foot',
+            '<span>drafted by claude-haiku-4.5 · judged by claude-opus-4.8</span>' +
+              '<span class="turn-hint">press &rarr; to begin</span>'
+          )
+          c.appendChild(bar)
+          c.appendChild(body)
+          c.appendChild(foot)
+          var leaf = makeLeaf(c, '{ }')
+          stage.insertBefore(leaf, hotLeft)
+          leaves.push(leaf)
+          pages.push({ label: 'COVER' })
+        })()
+
+        // poems
+        POEMS.forEach(function (p, i) {
+          var wrap = el('div', '')
+          wrap.style.display = 'flex'
+          wrap.style.flexDirection = 'column'
+          wrap.style.flex = '1'
+          wrap.style.minHeight = '0'
+          var bar = el(
+            'div',
+            'winbar',
+            '<span class="dots"><i></i><i></i><i></i></span>' +
+              '<span class="fname">' +
+              p.n +
+              '_' +
+              p.slug +
+              '.poem</span>' +
+              '<span class="idx">POEM ' +
+              p.n +
+              ' / 10</span>'
+          )
+          var pb = el('div', 'pagebody')
+          pb.appendChild(el('div', 'ptag', '// ' + p.form))
+          pb.appendChild(el('h2', 'ptitle', esc(p.title)))
+          pb.appendChild(el('div', 'pbody', renderBody(p.body)))
+          var pageNum = i + 2 // 1-based page within book (cover=1)
+          var status = el(
+            'div',
+            'statusbar',
+            '<span class="score">opus-4.8 &#9656; <b>' +
+              p.score +
+              '</b>/10</span>' +
+              '<span class="meter"><span style="width:' +
+              parseFloat(p.score) * 10 +
+              '%"></span></span>' +
+              '<span class="pg">PG ' +
+              pad2(pageNum) +
+              ' / ' +
+              pad2(TOTAL) +
+              '</span>'
+          )
+          wrap.appendChild(bar)
+          wrap.appendChild(pb)
+          wrap.appendChild(status)
+          var leaf = makeLeaf(wrap, p.n)
+          stage.insertBefore(leaf, hotLeft)
+          leaves.push(leaf)
+          pages.push({ label: p.n + ' / 10' })
+        })
+
+        // colophon
+        ;(function () {
+          var rows = POEMS.map(function (p) {
+            var top = parseFloat(p.score) >= 8 ? ' class="top"' : ''
+            return (
+              '<tr' +
+              top +
+              '><td class="n">' +
+              p.n +
+              '</td><td class="t">' +
+              esc(p.title) +
+              '</td><td class="s">' +
+              p.score +
+              '</td></tr>'
+            )
+          }).join('')
+          var c = el('div', '')
+          c.style.display = 'flex'
+          c.style.flexDirection = 'column'
+          c.style.flex = '1'
+          c.style.minHeight = '0'
+          var bar = el(
+            'div',
+            'winbar',
+            '<span class="dots"><i></i><i></i><i></i></span>' +
+              '<span class="fname">EOF</span>' +
+              '<span class="idx">COLOPHON</span>'
+          )
+          var body = el('div', 'eof-body')
+          body.appendChild(el('h2', null, '// EOF'))
+          body.appendChild(
+            el(
+              'p',
+              'lead',
+              'Ten poems, written by Haiku, graded hard by Opus, the weakest revised on the editor&#39;s own notes — orchestrated live as a 44-agent workflow. The premise was drawn from current online discussion on AI and the craft of programming.'
+            )
+          )
+          var tbl = el('table', 'scorelist', rows)
+          body.appendChild(tbl)
+          body.appendChild(
+            el(
+              'div',
+              'creditline',
+              '<b>Booklet average</b> 6.95 / 10 &nbsp;·&nbsp; 9 of 10 revised once<br>' +
+                '<b>Pattern</b> Haiku drafts · Opus 4.8 advises &amp; judges (advisor loop)<br>' +
+                '<b>Sourced from</b> current online discourse on AI &amp; coding<br>' +
+                '<b>Draft</b> claude-haiku-4.5 &nbsp; <b>Edit</b> claude-opus-4.8<br>' +
+                '<b>Compiled</b> 2026-06-19'
+            )
+          )
+          var btn = el('button', 'restart', '&#8634; Read again')
+          btn.type = 'button'
+          btn.addEventListener('click', function () {
+            go(0)
+          })
+          body.appendChild(btn)
+          c.appendChild(bar)
+          c.appendChild(body)
+          var leaf = makeLeaf(c, 'EOF')
+          stage.insertBefore(leaf, hotLeft)
+          leaves.push(leaf)
+          pages.push({ label: 'EOF' })
+        })()
+
+        var N = leaves.length
+
+        // ---- navigation -------------------------------------------------------
+        var p = 0
+        ;(function () {
+          var hp = parseInt((location.hash || '').slice(1), 10)
+          if (!isNaN(hp)) p = Math.max(0, Math.min(N - 1, hp))
+        })()
+        var prevBtn = document.getElementById('prevBtn')
+        var nextBtn = document.getElementById('nextBtn')
+        var counterNow = document.getElementById('counterNow')
+        var counterTotal = document.getElementById('counterTotal')
+        var progressFill = document.getElementById('progressFill')
+        var boostTimer = null
+
+        counterTotal.textContent = '· ' + pad2(N) + ' leaves'
+
+        function baseZ() {
+          for (var i = 0; i < N; i++) {
+            var flipped = i < p
+            leaves[i].style.zIndex = flipped ? i + 1 : N - i
+          }
+        }
+
+        function render(prev) {
+          for (var i = 0; i < N; i++) {
+            var flipped = i < p
+            leaves[i].classList.toggle('flipped', flipped)
+          }
+          baseZ()
+          // lift the leaves that are mid-turn so they cross above the stacks
+          var lo = Math.min(prev, p),
+            hi = Math.max(prev, p)
+          for (var j = lo; j < hi; j++) {
+            leaves[j].style.zIndex = 1000 + (p > prev ? j : N - j)
+          }
+          if (boostTimer) clearTimeout(boostTimer)
+          boostTimer = setTimeout(baseZ, 820)
+
+          // labels + chrome
+          counterNow.textContent = pages[p].label
+          progressFill.style.width = (p / (N - 1)) * 100 + '%'
+          if (history && history.replaceState) {
+            history.replaceState(null, '', p === 0 ? '#' : '#' + p)
+          }
+          prevBtn.disabled = p === 0
+          nextBtn.disabled = p === N - 1
+          hotLeft.disabled = p === 0
+          hotRight.disabled = p === N - 1
+        }
+
+        function go(target) {
+          target = Math.max(0, Math.min(N - 1, target))
+          if (target === p) return
+          var prev = p
+          p = target
+          render(prev)
+        }
+        function next() {
+          go(p + 1)
+        }
+        function prev() {
+          go(p - 1)
+        }
+
+        prevBtn.addEventListener('click', prev)
+        nextBtn.addEventListener('click', next)
+        hotLeft.addEventListener('click', prev)
+        hotRight.addEventListener('click', next)
+
+        // keyboard
+        document.addEventListener('keydown', function (e) {
+          if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))
+            return
+          switch (e.key) {
+            case 'ArrowRight':
+            case 'PageDown':
+            case ' ':
+            case 'Spacebar':
+              e.preventDefault()
+              next()
+              break
+            case 'ArrowLeft':
+            case 'PageUp':
+              e.preventDefault()
+              prev()
+              break
+            case 'Home':
+              e.preventDefault()
+              go(0)
+              break
+            case 'End':
+              e.preventDefault()
+              go(N - 1)
+              break
+          }
+        })
+
+        // touch swipe
+        var tx = 0,
+          ty = 0,
+          touching = false
+        stage.addEventListener(
+          'touchstart',
+          function (e) {
+            if (e.touches.length !== 1) return
+            touching = true
+            tx = e.touches[0].clientX
+            ty = e.touches[0].clientY
+          },
+          { passive: true }
+        )
+        stage.addEventListener(
+          'touchend',
+          function (e) {
+            if (!touching) return
+            touching = false
+            var dx = e.changedTouches[0].clientX - tx
+            var dy = e.changedTouches[0].clientY - ty
+            if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy)) {
+              dx < 0 ? next() : prev()
+            }
+          },
+          { passive: true }
+        )
+
+        // ---- fill-the-space sizing + per-poem text fit ------------------------
+        var root = document.documentElement
+        var topbarEl = document.querySelector('.topbar')
+        var controlsEl = document.querySelector('.controls')
+        var sceneEl = document.querySelector('.scene')
+        var RATIO = 0.7 // page width / height
+
+        // shrink any poem whose body would overflow, grow the rest — no scrollbars
+        function fitText() {
+          var bodies = stage.querySelectorAll('.pbody')
+          for (var i = 0; i < bodies.length; i++) {
+            var pb = bodies[i]
+            var size = 18
+            pb.style.fontSize = size + 'px'
+            var guard = 0
+            while (
+              pb.scrollHeight > pb.clientHeight + 1 &&
+              size > 11 &&
+              guard < 64
+            ) {
+              size -= 0.5
+              pb.style.fontSize = size + 'px'
+              guard++
+            }
+          }
+        }
+
+        // size the book to fill the viewport between the topbar and the legend
+        function layout() {
+          var topH = topbarEl.offsetHeight || 42
+          var botReserve = Math.max(controlsEl.offsetHeight || 84, 96) // clears the keyhint too
+          var padTop = topH + 14,
+            padBot = botReserve + 14
+          sceneEl.style.paddingTop = padTop + 'px'
+          sceneEl.style.paddingBottom = padBot + 'px'
+
+          var availH = window.innerHeight - padTop - padBot
+          var availW = window.innerWidth - 24
+          var pageH = availH
+          var pageW = pageH * RATIO
+          if (pageW * 2 > availW) {
+            pageW = availW / 2
+            pageH = pageW / RATIO
+          } // width-bound
+          pageH = Math.max(340, pageH)
+          pageW = Math.max(238, pageW)
+
+          root.style.setProperty('--page-w', pageW + 'px')
+          root.style.setProperty('--page-h', pageH + 'px')
+          root.style.setProperty('--scale', '1')
+          fitText()
+        }
+
+        window.addEventListener('resize', layout)
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(layout)
+        }
+        layout()
+        render(0)
+      })()
+    </script>
+  </body>
+</html>
