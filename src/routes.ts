@@ -4,7 +4,7 @@ export default {
     href: '/',
   },
   blog: {
-    name: 'Blog',
+    name: 'Writings',
     href: '/blog',
   },
   contact: {
