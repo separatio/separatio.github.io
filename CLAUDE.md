@@ -23,10 +23,10 @@ Posts live in `src/writing/posts/*.md`, parsed at build time via `import.meta.gl
 ```markdown
 ---
 title: COMPILE / DREAM
-date: 2026-06-20      # ISO date
-slug: compile-dream  # URL becomes /writing/<slug>
-summary: One-line blurb shown in the post list   # optional
-draft: true          # optional — hides from the published list
+date: 2026-06-20 # ISO date
+slug: compile-dream # URL becomes /writing/<slug>
+summary: One-line blurb shown in the post list # optional
+draft: true # optional — hides from the published list
 ---
 ```
 

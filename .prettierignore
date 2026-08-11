@@ -3,3 +3,6 @@ build
 coverage
 pnpm-lock.yaml
 .superpowers/
+
+# hand-authored booklet: source whitespace is poem content, do not reformat
+public/writings/guaranteed-human.html
