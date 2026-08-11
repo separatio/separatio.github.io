@@ -5,7 +5,7 @@ slug: guaranteed-human
 summary: Thirteen poems & a colophon on what the internet feels about AI, bound as a page-turning certification booklet the book itself cannot earn. Made with Claude.
 ---
 
-**GUARANTEED HUMAN** is a small book of thirteen poems and a colophon about what the internet feels about AI — the slop flood, the proof-of-humanity exams, the 6 a.m. layoff emails, the safe words families invent against cloned voices, the hum outside the data centers, the grief for retired chat models. It is bound as a page-turning paper chapbook — a certification document you leaf through with the arrow keys, a swipe, or a tap on the page edges — stamped and sealed in bureau-blue ink; the seal does not survive the last page.
+**GUARANTEED HUMAN** is a small book of thirteen poems and a colophon about what the internet feels about AI — the slop flood, the proof-of-humanity exams, the 6 a.m. layoff emails, the safe words families invent against cloned voices, the hum outside the data centers, the grief for retired chat models. It is bound as a page-turning paper book — an open two-page spread on wide screens, a single leaf on small ones — that you turn with the arrow keys, a swipe, or a tap on the pages, stamped and sealed in bureau-blue ink; the seal does not survive the last page.
 
 [→ Open the book](/writings/guaranteed-human.html)
 
