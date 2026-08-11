@@ -119,10 +119,37 @@
         width: calc(var(--leaf-w) * 2);
         max-width: none;
         perspective: 2300px;
+        transition: transform 0.5s cubic-bezier(0.3, 0.1, 0.25, 1);
+      }
+      /* endpaper board behind the pages */
+      .js.twoup .leaf::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
         background:
           linear-gradient(to right, rgba(120, 96, 48, 0.1), rgba(120, 96, 48, 0) 12%),
           linear-gradient(to left, rgba(120, 96, 48, 0.1), rgba(120, 96, 48, 0) 12%),
           var(--paper-deep);
+        transition: opacity 0.45s ease;
+      }
+      /* closed book: only the cover, centred, no board or spine */
+      .js.twoup .leaf.closed {
+        transform: scale(var(--s, 1)) translateX(calc(var(--leaf-w) / -2));
+        box-shadow: none;
+      }
+      .js.twoup .leaf.closed::after,
+      .js.twoup .leaf.closed::before {
+        opacity: 0;
+      }
+      .js.twoup .leaf.closed .page.current {
+        box-shadow:
+          0 1px 2px rgba(60, 50, 30, 0.16),
+          4px 5px 0 -2px var(--paper-deep),
+          4px 5px 0 -1px var(--line),
+          8px 10px 0 -5px var(--paper-deep),
+          8px 10px 0 -4px var(--line),
+          16px 22px 38px rgba(60, 50, 30, 0.2);
       }
       .js.twoup .leaf::before {
         content: '';
@@ -133,6 +160,7 @@
         width: 34px;
         z-index: 4;
         pointer-events: none;
+        transition: opacity 0.45s ease;
         background: linear-gradient(
           to right,
           rgba(60, 50, 30, 0) 0%,
@@ -310,6 +338,11 @@
         .js .page.flip-out,
         .js .page.flip-in {
           animation: none;
+        }
+        .js.twoup .leaf,
+        .js.twoup .leaf::after,
+        .js.twoup .leaf::before {
+          transition: none;
         }
       }
 
@@ -1889,12 +1922,41 @@
       let mode = 'one' // 'one' | 'two'
       let busy = false
 
-      // spread s=0 is the cover alone (right side); spread s>=1 shows 2s-1|2s
-      const sideOf = (i) => (i === 0 || i % 2 === 0 ? 'right' : 'left')
-      const spreadOf = (i) => (i === 0 ? 0 : Math.ceil(i / 2))
-      const sp = (s) =>
-        s === 0 ? { L: null, R: 0 } : { L: 2 * s - 1, R: 2 * s < N ? 2 * s : null }
-      const lastSpread = spreadOf(N - 1)
+      // the book's imposition: cover closed, contents on a recto,
+      // every poem opening on a verso (left page)
+      const SPREADS = [
+        { L: null, R: 0, closed: true }, // cover
+        { L: null, R: 1 }, // blank | contents
+        { L: 2, R: 3 }, // the flood
+        { L: 4, R: 5 }, // the flamingo
+        { L: 6, R: 7 }, // guidance
+        { L: 8, R: 9 }, // liner notes
+        { L: 10, R: 11 }, // safe word
+        { L: 12, R: 13 }, // headcount
+        { L: 14, R: 15 }, // entry level
+        { L: 16, R: 17 }, // teaspoon
+        { L: 18, R: 19 }, // the hum
+        { L: 20, R: 21 }, // the gates
+        { L: 22, R: 23 }, // corrections
+        { L: 24, R: 25 }, // ouroboros
+        { L: 26, R: 27 }, // always available i | ii
+        { L: 28, R: null }, // always available iii | blank
+        { L: 29, R: 30 }, // colophon
+        { L: null, R: 31 }, // blank | seal
+      ]
+      const lastSpread = SPREADS.length - 1
+      const pageSpread = new Array(N)
+      const pageSide = new Array(N)
+      SPREADS.forEach((s, si) => {
+        if (s.L != null) {
+          pageSpread[s.L] = si
+          pageSide[s.L] = 'left'
+        }
+        if (s.R != null) {
+          pageSpread[s.R] = si
+          pageSide[s.R] = 'right'
+        }
+      })
 
       const CLS = [
         'current',
@@ -1909,15 +1971,17 @@
       const render = () => {
         pages.forEach((p, i) => {
           p.classList.remove(...CLS)
-          p.classList.toggle('side-left', mode === 'two' && sideOf(i) === 'left')
-          p.classList.toggle('side-right', mode === 'two' && sideOf(i) === 'right')
+          p.classList.toggle('side-left', mode === 'two' && pageSide[i] === 'left')
+          p.classList.toggle('side-right', mode === 'two' && pageSide[i] === 'right')
         })
         if (mode === 'two') {
-          const { L, R } = sp(spreadOf(cur))
-          if (L != null) pages[L].classList.add('current')
-          if (R != null) pages[R].classList.add('current')
+          const s = SPREADS[pageSpread[cur]]
+          if (s.L != null) pages[s.L].classList.add('current')
+          if (s.R != null) pages[s.R].classList.add('current')
+          leaf.classList.toggle('closed', !!s.closed)
         } else {
           pages[cur].classList.add('current')
+          leaf.classList.remove('closed')
         }
       }
 
@@ -1974,12 +2038,12 @@
 
       // spread turn: lift one sheet over the spine, land it on the far side
       const goSpread = (t, target) => {
-        const s = spreadOf(cur)
+        const s = pageSpread[cur]
         const dir = t > s ? 1 : -1
-        const A = sp(s)
-        const B = sp(t)
+        const A = SPREADS[s]
+        const B = SPREADS[t]
         const done = () => {
-          cur = target != null ? target : (dir > 0 ? (B.L ?? B.R) : (B.R ?? B.L))
+          cur = target != null ? target : dir > 0 ? (B.L ?? B.R) : (B.R ?? B.L)
           busy = false
           render()
           sync()
@@ -1989,6 +2053,7 @@
           return
         }
         busy = true
+        leaf.classList.toggle('closed', !!B.closed)
         if (dir > 0) {
           if (B.R != null) pages[B.R].classList.add('under')
           const lift = A.R != null ? pages[A.R] : null
@@ -2035,22 +2100,22 @@
       const next = () => {
         if (busy) return
         if (mode === 'two') {
-          const s = spreadOf(cur)
+          const s = pageSpread[cur]
           if (s < lastSpread) goSpread(s + 1)
         } else if (cur < N - 1) goPage(cur + 1, 1)
       }
       const prev = () => {
         if (busy) return
         if (mode === 'two') {
-          const s = spreadOf(cur)
+          const s = pageSpread[cur]
           if (s > 0) goSpread(s - 1)
         } else if (cur > 0) goPage(cur - 1, -1)
       }
       const goto = (i) => {
         if (busy || i === cur) return
         if (mode === 'two') {
-          const t = spreadOf(i)
-          if (t === spreadOf(cur)) {
+          const t = pageSpread[i]
+          if (t === pageSpread[cur]) {
             cur = i
             sync()
           } else goSpread(t, i)
