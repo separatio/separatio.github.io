@@ -1,6 +1,9 @@
 /* Self-hosted IBM Plex (OFL). Weights/subsets/unicode-ranges derived verbatim
    from business-card/assets/fonts-lib.css (the canonical Google-subset split).
-   latin-ext (U+0100–02BA …) covers ă = U+0103 — required for "Rădulescu". */
+   latin-ext (U+0100–02BA …) covers the Romanian set: ă U+0103, ș U+0219 and
+   ț U+021B (comma-below, not cedilla). â U+00E2 and î U+00EE fall in the latin
+   subset. Both files are therefore needed on /ro — see the preloads in
+   index.html. */
 
 /* ── IBM Plex Mono — 400 ─────────────────────────────────────────── */
 @font-face {

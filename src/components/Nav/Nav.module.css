@@ -69,6 +69,24 @@
   color: var(--gold);
 }
 
+/* Language switch, desktop: last item in .desktopLinks, split off from WRITING
+   by a gold hairline sitting mid-gap. Hidden below 768px with its parent list. */
+.navLangDesktop {
+  display: flex;
+  align-items: center;
+  margin-left: calc(var(--space-lg) / -2);
+  padding-left: calc(var(--space-lg) / 2);
+  border-left: 1px solid rgba(var(--gold-rgb), 0.35);
+}
+
+/* Language switch, mobile: fills the empty middle of the bar between the
+   wordmark and the hamburger. display:none (not visibility) above 768px so
+   only one of the two instances is ever in the a11y tree. */
+.navLangMobile {
+  display: none;
+  align-items: center;
+}
+
 /* Mobile hamburger */
 .hamburger {
   display: none;
@@ -134,6 +152,10 @@
     display: none;
   }
 
+  .navLangMobile {
+    display: flex;
+  }
+
   .hamburger {
     display: flex;
   }
@@ -151,7 +173,9 @@
   .wordmark,
   .navLink,
   .hamburger,
-  .mobileLink {
+  .mobileLink,
+  .navLangDesktop,
+  .navLangMobile {
     transition: none;
   }
 }

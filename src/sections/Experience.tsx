@@ -1,17 +1,19 @@
 import EyebrowRule from '../components/EyebrowRule'
 import Button from '../components/Button'
 import Reveal from '../components/Reveal'
-import { experience } from '../content/experience'
+import { useI18n } from '../i18n/useI18n'
 import styles from './Experience.module.css'
 
 function Experience() {
+  const { t } = useI18n()
+
   return (
     <section id="experience" className={styles.section}>
       <div className={styles.wrap}>
-        <EyebrowRule label="EXPERIENCE" />
+        <EyebrowRule label={t.experience.eyebrow} />
 
         <ol className={styles.timeline} role="list">
-          {experience.map((entry, i) => (
+          {t.experience.entries.map((entry, i) => (
             <Reveal
               as="li"
               key={entry.dates + entry.role}
@@ -35,7 +37,7 @@ function Experience() {
 
         <div className={styles.cta}>
           <Button href="/alex-radulescu-cv.pdf" download>
-            Download CV
+            {t.experience.downloadCv}
           </Button>
         </div>
       </div>

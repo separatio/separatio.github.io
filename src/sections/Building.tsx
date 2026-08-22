@@ -1,9 +1,10 @@
 import EyebrowRule from '../components/EyebrowRule'
 import Reveal from '../components/Reveal'
-import { building, type BuildingCard } from '../content/building'
+import { useI18n } from '../i18n/useI18n'
+import type { BuildingCard } from '../i18n/types'
 import styles from './Building.module.css'
 
-function Card({ card }: { card: BuildingCard }) {
+function Card({ card, github }: { card: BuildingCard; github: string }) {
   // The union discriminant is the privacy guardrail: only a `named` card can
   // render a project name + outbound link. `quiet` cards have neither field.
   if (card.kind === 'named') {
@@ -19,7 +20,7 @@ function Card({ card }: { card: BuildingCard }) {
         <span className={styles.tag}>{card.tag}</span>
         <p className={styles.desc}>{card.description}</p>
         <span className={styles.cta} aria-hidden="true">
-          GITHUB ↗
+          {github}
         </span>
       </a>
     )
@@ -35,14 +36,16 @@ function Card({ card }: { card: BuildingCard }) {
 }
 
 function Building() {
+  const { t } = useI18n()
+
   return (
     <section id="building" className={styles.section}>
       <div className={styles.wrap}>
-        <EyebrowRule label="WHAT I'M BUILDING" />
+        <EyebrowRule label={t.building.eyebrow} />
         <div className={styles.grid}>
-          {building.map((card, i) => (
+          {t.building.cards.map((card, i) => (
             <Reveal key={card.index} delay={i * 80}>
-              <Card card={card} />
+              <Card card={card} github={t.building.github} />
             </Reveal>
           ))}
         </div>

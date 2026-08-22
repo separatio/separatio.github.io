@@ -1,13 +1,11 @@
 import { useState, useEffect, useCallback, useId } from 'react'
 import { Link, NavLink } from 'react-router'
+import { useI18n } from '../../i18n/useI18n'
+import LangSwitch from './LangSwitch'
 import styles from './Nav.module.css'
 
-const ANCHOR_LINKS = [
-  { label: 'ABOUT', href: '/#about' },
-  { label: 'BUILDING', href: '/#building' },
-  { label: 'EXPERIENCE', href: '/#experience' },
-  { label: 'CONTACT', href: '/#contact' },
-] as const
+/** Section ids on the landing page — also the `t.nav` keys for their labels. */
+const ANCHOR_IDS = ['about', 'building', 'experience', 'contact'] as const
 
 function HamburgerIcon({ open }: { open: boolean }) {
   return (
@@ -78,6 +76,7 @@ function HamburgerIcon({ open }: { open: boolean }) {
 function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuId = useId()
+  const { t, path } = useI18n()
 
   const closeMenu = useCallback(() => setMenuOpen(false), [])
 
@@ -92,18 +91,24 @@ function Nav() {
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [menuOpen, closeMenu])
 
+  const anchorLinks = ANCHOR_IDS.map((id) => ({
+    id,
+    label: t.nav[id],
+    href: `${path('/')}#${id}`,
+  }))
+
   return (
     <header className={styles.header}>
-      <nav className={styles.nav} aria-label="Primary navigation">
+      <nav className={styles.nav} aria-label={t.nav.primaryLabel}>
         {/* Wordmark */}
-        <Link to="/" className={styles.wordmark} onClick={closeMenu}>
+        <Link to={path('/')} className={styles.wordmark} onClick={closeMenu}>
           AR
         </Link>
 
         {/* Desktop links */}
         <ul className={styles.desktopLinks} role="list">
-          {ANCHOR_LINKS.map(({ label, href }) => (
-            <li key={label}>
+          {anchorLinks.map(({ id, label, href }) => (
+            <li key={id}>
               <a href={href} className={styles.navLink}>
                 {label}
               </a>
@@ -111,23 +116,29 @@ function Nav() {
           ))}
           <li>
             <NavLink
-              to="/writing"
+              to={path('/writing')}
               className={({ isActive }) =>
                 isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
               }
             >
-              WRITING
+              {t.nav.writing}
             </NavLink>
           </li>
+          <li className={styles.navLangDesktop}>
+            <LangSwitch onSelect={closeMenu} />
+          </li>
         </ul>
+
+        {/* Language switch, mobile only — fills the middle of the bar */}
+        <div className={styles.navLangMobile}>
+          <LangSwitch onSelect={closeMenu} />
+        </div>
 
         {/* Mobile hamburger */}
         <button
           type="button"
           className={styles.hamburger}
-          aria-label={
-            menuOpen ? 'Close navigation menu' : 'Open navigation menu'
-          }
+          aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
           aria-expanded={menuOpen}
           aria-controls={menuId}
           onClick={() => setMenuOpen((prev) => !prev)}
@@ -143,8 +154,8 @@ function Nav() {
         role="list"
         aria-hidden={!menuOpen}
       >
-        {ANCHOR_LINKS.map(({ label, href }) => (
-          <li key={label}>
+        {anchorLinks.map(({ id, label, href }) => (
+          <li key={id}>
             <a href={href} className={styles.mobileLink} onClick={closeMenu}>
               {label}
             </a>
@@ -152,7 +163,7 @@ function Nav() {
         ))}
         <li>
           <NavLink
-            to="/writing"
+            to={path('/writing')}
             className={({ isActive }) =>
               isActive
                 ? `${styles.mobileLink} ${styles.active}`
@@ -160,7 +171,7 @@ function Nav() {
             }
             onClick={closeMenu}
           >
-            WRITING
+            {t.nav.writing}
           </NavLink>
         </li>
       </ul>

@@ -71,6 +71,24 @@
   gap: var(--space-2xs);
 }
 
+/* Title line — title plus the optional "post is in English" marker */
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs);
+}
+
+/* Marker shown only on the Romanian index, where every post is still English */
+.englishNote {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-secondary);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
 /* Title — primary row anchor */
 .title {
   font-family: var(--font-mono);
