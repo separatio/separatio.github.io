@@ -93,15 +93,27 @@ export function getPostBySlug(slug: string): Post | undefined {
 
 /* ── Date formatting (display only — sort uses raw ISO strings) ─────────── */
 
-const dateFormatter = new Intl.DateTimeFormat('en-GB', {
-  day: '2-digit',
-  month: 'short',
-  year: 'numeric',
-})
+// Intl.DateTimeFormat construction is the expensive part, so keep one instance
+// per locale rather than rebuilding it on every render.
+const formatters = new Map<string, Intl.DateTimeFormat>()
 
-export function formatPostDate(iso: string): string {
+function getFormatter(locale: string): Intl.DateTimeFormat {
+  const cached = formatters.get(locale)
+  if (cached) return cached
+
+  const formatter = new Intl.DateTimeFormat(locale, {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  })
+  formatters.set(locale, formatter)
+  return formatter
+}
+
+/** `locale` is a BCP-47 tag — pass `t.dateLocale` ('en-GB' | 'ro-RO'). */
+export function formatPostDate(iso: string, locale: string): string {
   const date = new Date(iso)
   // Invalid ISO strings produce an invalid Date — fall back to the raw string.
   if (Number.isNaN(date.getTime())) return iso
-  return dateFormatter.format(date)
+  return getFormatter(locale).format(date)
 }

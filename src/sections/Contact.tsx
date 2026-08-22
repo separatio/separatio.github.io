@@ -1,6 +1,7 @@
 import EyebrowRule from '../components/EyebrowRule'
 import Reveal from '../components/Reveal'
-import { contact, type ContactRow } from '../content/contact'
+import { useI18n } from '../i18n/useI18n'
+import type { ContactRow } from '../i18n/types'
 import styles from './Contact.module.css'
 
 function RowValue({ row }: { row: ContactRow }) {
@@ -20,12 +21,14 @@ function RowValue({ row }: { row: ContactRow }) {
 }
 
 function Contact() {
+  const { t } = useI18n()
+
   return (
     <section id="contact" className={styles.section}>
       <div className={styles.wrap}>
-        <EyebrowRule label="CONTACT" />
+        <EyebrowRule label={t.contact.eyebrow} />
         <Reveal as="dl" className={styles.rows}>
-          {contact.map((row) => (
+          {t.contact.rows.map((row) => (
             <div key={row.label} className={styles.row}>
               <dt className={styles.label}>{row.label}</dt>
               <dd className={styles.valueCell}>
