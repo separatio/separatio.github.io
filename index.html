@@ -35,9 +35,18 @@
     />
     <meta name="twitter:image" content="https://separatio.github.io/og.png" />
 
-    <!-- Language alternates — static so crawlers see them without running JS -->
+    <!-- Canonical — the /ro copy gets its own, rewritten by vite/prerender-locales -->
+    <link rel="canonical" href="https://separatio.github.io/" />
+
+    <!-- Language alternates — static so crawlers see them without running JS.
+         The Romanian href keeps its trailing slash: GitHub Pages serves
+         dist/ro/index.html at /ro/ and 301s a bare /ro to it. -->
     <link rel="alternate" hreflang="en" href="https://separatio.github.io/" />
-    <link rel="alternate" hreflang="ro" href="https://separatio.github.io/ro" />
+    <link
+      rel="alternate"
+      hreflang="ro"
+      href="https://separatio.github.io/ro/"
+    />
     <link
       rel="alternate"
       hreflang="x-default"
