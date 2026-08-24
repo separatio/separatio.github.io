@@ -5,9 +5,13 @@ import styles from './Hero.module.css'
 
 /**
  * Top-of-page hero. Framed by CornerMarks. Lines fade-up on load with a
- * staggered animation-delay (eyebrow → headline → name → subhead → tagline →
- * CTAs). Under prefers-reduced-motion the animation is removed and every line
- * renders in its final, fully-visible state — see the reduced-motion block.
+ * staggered animation-delay (eyebrow → name → role → subhead → tagline → CTAs).
+ * Under prefers-reduced-motion the animation is removed and every line renders
+ * in its final, fully-visible state — see the reduced-motion block.
+ *
+ * The name is the h1 and the job title below it is a plain `<p>`, not an h2:
+ * it is a role descriptor with nothing nested under it, and an h2 here would
+ * make it a sibling of the four section headings. Outline stays 1×h1 + 4×h2.
  */
 function Hero() {
   const { t, path } = useI18n()
@@ -20,11 +24,11 @@ function Hero() {
           {t.hero.eyebrow}
         </span>
 
-        <h1 className={`display ${styles.line} ${styles.headline}`}>
-          {t.hero.headline}
+        <h1 className={`display ${styles.line} ${styles.name}`}>
+          {t.hero.name}
         </h1>
 
-        <p className={`${styles.line} ${styles.name}`}>{t.hero.name}</p>
+        <p className={`${styles.line} ${styles.role}`}>{t.hero.headline}</p>
 
         <p className={`${styles.line} ${styles.subhead}`}>{t.hero.meta}</p>
 
