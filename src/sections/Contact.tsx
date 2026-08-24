@@ -27,6 +27,12 @@ function Contact() {
     <section id="contact" className={styles.section}>
       <div className={styles.wrap}>
         <EyebrowRule label={t.contact.eyebrow} />
+        {/* Romanian opens with a line of copy; English leaves this blank. */}
+        {t.contact.intro && (
+          <Reveal as="p" className={styles.intro}>
+            {t.contact.intro}
+          </Reveal>
+        )}
         <Reveal as="dl" className={styles.rows}>
           {t.contact.rows.map((row) => (
             <div key={row.label} className={styles.row}>
