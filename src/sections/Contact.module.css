@@ -10,9 +10,23 @@
   margin: 0 auto;
 }
 
+/* Only rendered when the locale supplies copy — English leaves it blank. */
+.intro {
+  margin: var(--space-xl) 0 0;
+  max-width: var(--reading-max);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}
+
 .rows {
   margin: var(--space-xl) 0 0;
   border-top: 1px solid rgba(var(--gold-rgb), 0.2);
+}
+
+/* With an intro present, the intro owns the gap under the eyebrow rule. */
+.intro + .rows {
+  margin-top: var(--space-lg);
 }
 
 .row {
@@ -53,6 +67,7 @@ a.value:hover {
     gap: var(--space-3xs);
   }
 
+  .intro,
   .value {
     font-size: var(--text-base);
   }

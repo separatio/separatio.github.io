@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OG card template</title>
+    <!--
+      Source for public/og.png and public/og-ro.png. Not part of the Vite
+      build — nothing outside index.html and public/ is bundled.
+
+      Regenerate (from the repo root):
+
+        python3 -m http.server 8787 &
+        agent-browser set viewport 1200 630
+        agent-browser open 'http://localhost:8787/tools/og/og-card.html?l=en'
+        agent-browser screenshot public/og.png
+        agent-browser open 'http://localhost:8787/tools/og/og-card.html?l=ro'
+        agent-browser screenshot public/og-ro.png
+
+      Served over http rather than opened as file:// because Chrome gives
+      file:// pages an opaque origin and refuses to load the woff2 subsets.
+
+      Copy is duplicated from src/i18n/{en,ro}.ts rather than imported: this is
+      a plain HTML file with no build step. If a headline or tagline changes
+      there, change it here and re-render.
+    -->
+    <style>
+      /* Verbatim from src/styles/fonts.css, minus the unicode-range splits —
+         a 1200x630 canvas has no reason to lazy-load per-subset. */
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-weight: 400;
+        src: url('/public/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-weight: 400;
+        src: url('/public/fonts/ibm-plex-mono-400-latin-ext.woff2')
+          format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC;
+      }
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-weight: 500;
+        src: url('/public/fonts/ibm-plex-mono-500-latin.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'IBM Plex Mono';
+        font-weight: 500;
+        src: url('/public/fonts/ibm-plex-mono-500-latin-ext.woff2')
+          format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC;
+      }
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-weight: 400;
+        src: url('/public/fonts/ibm-plex-sans-400-latin.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'IBM Plex Sans';
+        font-weight: 400;
+        src: url('/public/fonts/ibm-plex-sans-400-latin-ext.woff2')
+          format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC;
+      }
+
+      /* Token values copied from src/styles/tokens.css. */
+      :root {
+        --gold-rgb: 201, 162, 78;
+        --gold: #c9a24e;
+        --text-primary: #f6f4ef;
+        --text-secondary: #d7dce4;
+        --font-mono: 'IBM Plex Mono', monospace;
+        --font-sans: 'IBM Plex Sans', sans-serif;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .card {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 100px;
+        box-sizing: border-box;
+        background:
+          repeating-linear-gradient(
+            to right,
+            rgba(var(--gold-rgb), 0.05) 0 1px,
+            transparent 1px 20px
+          ),
+          repeating-linear-gradient(
+            to bottom,
+            rgba(var(--gold-rgb), 0.05) 0 1px,
+            transparent 1px 20px
+          ),
+          radial-gradient(
+            125% 120% at 50% -10%,
+            #102a4e 0%,
+            #0c2040 55%,
+            #0a1a32 100%
+          );
+      }
+
+      /* Registration marks — the same L-brackets the live page draws. */
+      .corner {
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        border: 0 solid rgba(var(--gold-rgb), 0.75);
+      }
+      .tl {
+        top: 20px;
+        left: 20px;
+        border-top-width: 2px;
+        border-left-width: 2px;
+      }
+      .tr {
+        top: 20px;
+        right: 20px;
+        border-top-width: 2px;
+        border-right-width: 2px;
+      }
+      .bl {
+        bottom: 20px;
+        left: 20px;
+        border-bottom-width: 2px;
+        border-left-width: 2px;
+      }
+      .br {
+        bottom: 20px;
+        right: 20px;
+        border-bottom-width: 2px;
+        border-right-width: 2px;
+      }
+
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-weight: 400;
+        font-size: 13px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      .name {
+        margin-top: 26px;
+        font-family: var(--font-mono);
+        font-weight: 500;
+        font-size: 64px;
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+        text-transform: uppercase;
+        color: var(--text-primary);
+      }
+
+      .role {
+        margin-top: 22px;
+        font-family: var(--font-mono);
+        font-weight: 500;
+        font-size: 26px;
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+        color: var(--text-primary);
+      }
+
+      .rule {
+        margin-top: 30px;
+        width: 80px;
+        height: 1px;
+        background: var(--gold);
+        opacity: 0.55;
+      }
+
+      .tagline {
+        margin-top: 26px;
+        font-family: var(--font-sans);
+        font-size: 18px;
+        font-style: italic;
+        color: var(--text-secondary);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+
+      <div class="eyebrow" id="eyebrow"></div>
+      <div class="name">Alex Rădulescu</div>
+      <div class="role" id="role"></div>
+      <div class="rule"></div>
+      <div class="tagline" id="tagline"></div>
+    </div>
+
+    <script>
+      // ?l=ro renders the Romanian card; anything else renders English.
+      const COPY = {
+        en: {
+          eyebrow: 'separatio.github.io',
+          role: 'AI-FIRST BUILDER & OPERATOR',
+          tagline: 'More than software.',
+        },
+        ro: {
+          eyebrow: 'separatio.github.io/ro',
+          role: 'INGINER DE AUTOMATIZĂRI',
+          tagline: 'Mai mult decât software.',
+        },
+      }
+
+      const lang =
+        new URLSearchParams(location.search).get('l') === 'ro' ? 'ro' : 'en'
+      const copy = COPY[lang]
+
+      document.documentElement.lang = lang
+      document.getElementById('eyebrow').textContent = copy.eyebrow
+      document.getElementById('role').textContent = copy.role
+      document.getElementById('tagline').textContent = copy.tagline
+    </script>
+  </body>
+</html>

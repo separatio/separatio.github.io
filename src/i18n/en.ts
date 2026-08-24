@@ -135,7 +135,7 @@ export const en = {
   hero: {
     eyebrow: 'SQA & AUTOMATION SRL',
     headline: 'AI-FIRST BUILDER & OPERATOR',
-    name: 'ALEX RĂDULESCU',
+    name: 'Alex Rădulescu',
     meta: '12+ yrs in software quality · Building SaaS + agent infrastructure with Claude Code',
     tagline: 'More than software.',
     downloadCv: 'Download CV',
@@ -166,6 +166,13 @@ export const en = {
 
   contact: {
     eyebrow: 'CONTACT',
+    /**
+     * Empty on purpose. The Romanian page opens the contact section with a
+     * line of copy; the English page does not. `Dictionary = typeof en` forces
+     * the key to exist here, and Contact.tsx skips the paragraph when it is
+     * blank — so the English section renders exactly as before.
+     */
+    intro: '',
     rows: contactRows,
   },
 

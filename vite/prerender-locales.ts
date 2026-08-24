@@ -11,6 +11,14 @@ const SITE = 'https://separatio.github.io'
  */
 const RO_URL = `${SITE}/ro/`
 
+/**
+ * The share card has the headline and tagline baked into the pixels, so /ro
+ * needs its own or every Romanian unfurl shows English positioning. Absolute,
+ * like the English one — scrapers do not resolve relative image URLs.
+ * Rendered from tools/og/og-card.html; see the regeneration note there.
+ */
+const RO_IMAGE = `${SITE}/og-ro.png`
+
 const META_TAG = /<meta\b[^>]*>/g
 const LINK_TAG = /<link\b[^>]*>/g
 
@@ -63,9 +71,14 @@ function setAttr(
 }
 
 /**
- * Head-only transform: language, title, description/OG/Twitter copy, og:url and
- * canonical. Asset tags, font preloads, hreflang alternates and the
- * spa-github-pages shim are absolute or locale-agnostic and stay byte-identical.
+ * Head-only transform: language, title, description/OG/Twitter copy, the share
+ * image, og:url and canonical. Asset tags, font preloads, hreflang alternates
+ * and the spa-github-pages shim are absolute or locale-agnostic and stay
+ * byte-identical.
+ *
+ * The image is rewritten here and NOT in useDocumentHead: that hook only syncs
+ * copy, because the tags it would fix are read by scrapers, and scrapers never
+ * run the app. og:url and canonical are locale-specific for the same reason.
  */
 function toRomanian(html: string): string {
   const { title, description } = ro.head
@@ -93,6 +106,7 @@ function toRomanian(html: string): string {
     description
   )
   out = setAttr(out, META_TAG, /property="og:url"/, 'content', RO_URL)
+  out = setAttr(out, META_TAG, /property="og:image"/, 'content', RO_IMAGE)
   out = setAttr(out, META_TAG, /name="twitter:title"/, 'content', title)
   out = setAttr(
     out,
@@ -101,6 +115,7 @@ function toRomanian(html: string): string {
     'content',
     description
   )
+  out = setAttr(out, META_TAG, /name="twitter:image"/, 'content', RO_IMAGE)
   out = setAttr(out, LINK_TAG, /rel="canonical"/, 'href', RO_URL)
 
   return out

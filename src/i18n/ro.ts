@@ -6,9 +6,24 @@ import type {
 } from './types'
 
 /**
- * The quiet cards stay quiet in Romanian too: translated literally, with no
- * project name, no link and no extra detail added. See the guardrail JSDoc on
- * `BuildingCard` in ./types.
+ * Romanian is not a translation of the English page — it is written for a
+ * different reader. English addresses engineers; Romanian addresses
+ * non-technical business owners, so the copy talks about outcomes (time back,
+ * fewer mistakes) and avoids untranslated jargon.
+ *
+ * Two rules hold across every string below:
+ *  - AI is the tool, never the offer. It appears only where a project's subject
+ *    genuinely is AI, never on the selling surface (hero / about / contact).
+ *  - Register is impersonal first person ("Ofer…", "Trec munca…") — never `tu`,
+ *    never `dumneavoastră`.
+ *
+ * Diacritics are comma-below only: ș U+0219, ț U+021B.
+ */
+
+/**
+ * The quiet cards stay quiet in Romanian too: no project name, no link and no
+ * extra detail added. The rewrite deliberately *removes* specificity relative
+ * to the English cards. See the guardrail JSDoc on `BuildingCard` in ./types.
  */
 const buildingCards: BuildingCard[] = [
   {
@@ -18,28 +33,28 @@ const buildingCards: BuildingCard[] = [
     href: 'https://github.com/sqaoss/flowy',
     tag: 'OPEN SOURCE · APACHE 2.0',
     description:
-      'Management de proiect pentru agenți AI de programare — un CLI open-source (Apache 2.0) cuplat cu un server SaaS cu sursă închisă. Licențiere împărțită, intenționat: deschisă pentru adopție, protejată acolo unde contează.',
+      'Unealtă de organizare a muncii pentru echipe care programează cu agenți AI. Partea de bază e publică și gratuită, serverul rămâne al meu — deschis cât să fie folosit, închis unde contează.',
   },
   {
     kind: 'quiet',
     index: '02',
-    label: 'SAAS REGLEMENTAT',
+    label: 'DOMENIU REGLEMENTAT',
     sentence:
-      'Un SaaS multi-tenant aflat la început, într-o piață europeană reglementată (pre-lansare).',
+      'O platformă la început de drum, într-un domeniu european cu reguli stricte (încă nelansată).',
   },
   {
     kind: 'quiet',
     index: '03',
-    label: 'INFRASTRUCTURĂ DE AGENȚI',
+    label: 'INFRASTRUCTURĂ PROPRIE',
     sentence:
-      'Un orchestrator Claude multi-agent self-hosted, care rulează pe infrastructură personală, cuplat la Discord.',
+      'Un sistem care ține mai mulți asistenți AI la lucru non-stop, pe serverele mele, comandat dintr-un chat.',
   },
   {
     kind: 'quiet',
     index: '04',
-    label: 'ȘEF DE CABINET AI',
+    label: 'ASISTENT DE FAMILIE',
     sentence:
-      'Un bot AI de tip șef de cabinet pentru familie, care acoperă calendar, finanțe și contextul gospodăriei.',
+      'Un asistent pentru familie, care ține evidența calendarului, a cheltuielilor și a treburilor casei.',
   },
 ]
 
@@ -47,56 +62,69 @@ const buildingCards: BuildingCard[] = [
  * Same ranges as the English timeline — only the month abbreviations and
  * "Present" are translated. The SportyGroup/Circle and Hopin/Toptal overlaps
  * are intentional and must not be "corrected".
+ *
+ * Job titles stay in English on purpose: they are the titles actually held, and
+ * they are what a Romanian reader recognises on a CV.
+ *
+ * The accomplishment lines drop tool names — a business owner gains nothing
+ * from "TestCafe" or "accessibility-id" — but no achievement is invented,
+ * inflated or removed. The 15→3 min figure is kept verbatim.
  */
 const experienceEntries: ExperienceEntry[] = [
   {
     dates: 'Dec. 2025 – Prezent',
     role: 'Builder & Operator',
     accomplishment:
-      'Livrez cap-coadă SaaS multi-tenant și infrastructură multi-agent, cu Claude Code drept strat de execuție.',
+      'Construiesc și operez singur platforme și sisteme automate, de la prima discuție până la ce merge zi de zi.',
   },
   {
     dates: 'Iul. 2023 – Nov. 2025',
     role: 'Senior QA Automation Engineer',
     company: 'SportyGroup',
     accomplishment:
-      'Am construit un cadru de inițiative tehnice între echipe și am condus depanarea testelor asistată de AI în toate framework-urile QA.',
+      'Am pus la punct un mod de lucru pentru inițiative tehnice între echipe și am condus depanarea testelor în toate sistemele de testare.',
   },
   {
     dates: 'Mai 2023 – Mar. 2024',
     role: 'Senior QA Automation Engineer',
     company: 'Circle.so',
     accomplishment:
-      'Am construit de la zero infrastructura de testare React Native; o strategie de localizare pe accessibility-id a făcut extinderea pe iOS aproape gratuită.',
+      'Am construit de la zero testarea automată pentru aplicația de mobil; extinderea pe iOS a venit apoi aproape fără muncă în plus.',
   },
   {
     dates: 'Feb. 2017 – Feb. 2023',
     role: 'Senior QA Engineer / QA Lead',
     company: 'Toptal',
     accomplishment:
-      'Am condus efortul QA pentru extragerea frontendului principal; am scurtat rulările de teste Picasso 15→3 min și am construit testare vizuală la nivel de companie.',
+      'Am condus testarea pentru rescrierea interfeței principale; am scurtat rulările de teste 15→3 min și am dus testarea vizuală la nivel de companie.',
   },
   {
     dates: 'Feb. 2021 – Mai 2021',
     role: 'Senior QA Engineer',
     company: 'Hopin',
     accomplishment:
-      'Coordonare de release candidates în ritm de startup; am extins framework-ul TestCafe și am instruit ingineri pe performanța testelor.',
+      'Coordonare de lansări în ritm de startup; am extins testarea automată și am învățat echipa cum să facă testele mai rapide.',
   },
   {
     dates: 'Apr. 2013 – Ian. 2017',
     role: 'Roluri QA anterioare',
     company: 'Gameloft · Ortnec · Rebelmouse · PitechPlus',
     accomplishment:
-      'Am construit și am rulat framework-uri E2E (Selenium / Capybara / Codeception), testare de încărcare și CI/CD pe Jenkins.',
+      'Am construit și am rulat testare automată pentru aplicații web, testare de încărcare și livrare automată a codului.',
   },
 ]
 
+/** More rows than the English list — `ContactRow[]` makes that type-safe. */
 const contactRows: ContactRow[] = [
   {
-    label: 'MAIL',
+    label: 'E-MAIL',
     value: 'alex.radulescu@pm.me',
     href: 'mailto:alex.radulescu@pm.me',
+  },
+  {
+    label: 'TELEFON',
+    value: '0774 537 441',
+    href: 'tel:+40774537441',
   },
   {
     label: 'LINKEDIN',
@@ -111,8 +139,12 @@ const contactRows: ContactRow[] = [
     external: true,
   },
   {
-    label: 'LOC',
+    label: 'ORAȘ',
     value: 'Oradea, România',
+  },
+  {
+    label: 'FIRMĂ',
+    value: 'SQA & Automation SRL',
   },
 ]
 
@@ -120,14 +152,14 @@ export const ro: Dictionary = {
   dateLocale: 'ro-RO',
 
   nav: {
-    about: 'DESPRE',
-    building: 'CONSTRUIESC',
+    about: 'DESPRE MINE',
+    building: 'PROIECTE',
     experience: 'EXPERIENȚĂ',
     contact: 'CONTACT',
-    writing: 'TEXTE',
+    writing: 'BLOG',
     primaryLabel: 'Navigare principală',
-    openMenu: 'Deschide meniul de navigare',
-    closeMenu: 'Închide meniul de navigare',
+    openMenu: 'Deschide meniul',
+    closeMenu: 'Închide meniul',
   },
 
   langSwitch: {
@@ -135,45 +167,47 @@ export const ro: Dictionary = {
   },
 
   head: {
-    title: 'Alex Rădulescu — Builder & Operator AI-First',
+    title: 'Alex Rădulescu — automatizare pentru firme',
     description:
-      'Alex Rădulescu — builder & operator AI-first. 12+ ani în calitate software, construiesc SaaS și infrastructură de agenți cu Claude Code.',
+      'Alex Rădulescu — trec munca repetitivă din firmă pe un sistem care o face mai rapid și fără greșeli. 12+ ani în software.',
   },
 
   hero: {
     eyebrow: 'SQA & AUTOMATION SRL',
-    headline: 'BUILDER & OPERATOR AI-FIRST',
-    name: 'ALEX RĂDULESCU',
-    meta: '12+ ani în calitate software · Construiesc SaaS + infrastructură de agenți cu Claude Code',
+    headline: 'INGINER DE AUTOMATIZĂRI',
+    name: 'Alex Rădulescu',
+    meta: '12+ ani în software · Trec munca repetitivă din firmă pe un sistem care o face mai rapid și fără greșeli',
     tagline: 'Mai mult decât software.',
-    downloadCv: 'Descarcă CV-ul',
-    readWriting: 'Citește textele',
+    downloadCv: 'Descarcă CV-ul (PDF)',
+    readWriting: 'Citește blogul',
   },
 
   about: {
-    eyebrow: 'DESPRE',
-    body: 'Sunt builder și operator, cu 12+ ani în calitate software, și tratez calitatea ca prevenire a defectelor, nu ca execuție de teste — proiectez sisteme în care bugul nu ajunge niciodată în producție, nu doar îl prind după aceea. Astăzi construiesc și operez cap-coadă SaaS multi-tenant, orchestratoare multi-agent și unelte AI pentru familie, cu Claude Code drept strat de execuție. Merg cel mai bine acolo unde drumul nu e clar: inițiativă mare, asumare totală și înclinație spre livrare. Mai mult decât software — mă interesează sistemul în care trăiește software-ul.',
+    eyebrow: 'DESPRE MINE',
+    body: 'Am petrecut 12+ ani în software, verificând că lucrurile funcționează înainte să ajungă la oameni. Treaba mea n-a fost să găsesc greșeli, ci să construiesc sisteme în care greșeala nu mai apare. Acum fac același lucru pentru firme: iau munca repetitivă — rapoarte făcute de mână, date mutate dintr-un loc în altul, mesaje trimise unul câte unul — și o trec pe un sistem care o face mai rapid și fără greșeli. Nu ofer tehnologie, ofer timp recuperat și mai puține greșeli. Lucrez singur, de la prima discuție până la sistemul care merge zi de zi, așa că nu se pierde nimic pe drum. Mai mult decât software — mă interesează firma în care ajunge.',
     principles: [
-      'Calitatea ca prevenire a defectelor',
-      'Inițiativă mare, asumare totală',
-      'Productiv când drumul nu e clar',
+      'Previn greșelile, nu le vânez',
+      'Duc treaba până la capăt',
+      'Mă descurc când nimic nu e clar',
     ],
   },
 
   building: {
-    eyebrow: 'CE CONSTRUIESC',
+    eyebrow: 'PROIECTE',
     github: 'GITHUB ↗',
     cards: buildingCards,
   },
 
   experience: {
     eyebrow: 'EXPERIENȚĂ',
-    downloadCv: 'Descarcă CV-ul',
+    downloadCv: 'Descarcă CV-ul (PDF)',
     entries: experienceEntries,
   },
 
   contact: {
-    eyebrow: 'CONTACT',
+    eyebrow: 'HAI SĂ VORBIM',
+    intro:
+      'Dacă într-o firmă se face ceva de mână în fiecare săptămână, merită o discuție. Răspund la e-mail și la telefon.',
     rows: contactRows,
   },
 
@@ -182,7 +216,7 @@ export const ro: Dictionary = {
   },
 
   writing: {
-    eyebrow: 'TEXTE',
+    eyebrow: 'BLOG',
     empty: 'Nimic publicat încă. Revino în curând.',
     englishNote: 'în engleză',
   },
@@ -190,12 +224,12 @@ export const ro: Dictionary = {
   post: {
     notFoundTitle: 'Articol negăsit',
     noPostAt: 'Niciun articol la',
-    noSlug: 'Niciun slug furnizat.',
-    backToWriting: 'Înapoi la texte',
+    noSlug: 'Nu a fost indicat niciun articol.',
+    backToWriting: 'Înapoi la blog',
   },
 
   notFound: {
     message: 'Pagina asta nu există.',
-    backHome: 'Înapoi acasă',
+    backHome: 'Înapoi la pagina principală',
   },
 }
