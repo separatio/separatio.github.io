@@ -1,0 +1,15 @@
+# pnpm settings. Not a workspace file despite the name — as of pnpm 10 this is
+# where onlyBuiltDependencies and overrides live, and pnpm 11 stopped reading
+# the "pnpm" field in package.json entirely. See https://pnpm.io/settings.
+
+# Postinstall scripts are blocked by default; these two need to build binaries.
+onlyBuiltDependencies:
+  - '@swc/core'
+  - esbuild
+
+# GHSA-4fh9-h7wg-q85m — unsanitized class attribute. Reached transitively via
+# react-markdown, which is already on its latest release, so there is no direct
+# bump that clears it. A range rather than a pin, so it lapses on its own once
+# react-markdown's tree moves past 13.2.1.
+overrides:
+  mdast-util-to-hast@<13.2.1: '>=13.2.1'
