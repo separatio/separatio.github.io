@@ -14,6 +14,9 @@
     "prepare": "husky"
   },
   "homepage": "https://separatio.github.io/",
+  "engines": {
+    "node": ">=24"
+  },
   "dependencies": {
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
