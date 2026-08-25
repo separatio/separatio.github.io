@@ -3,7 +3,7 @@ import type {
   ContactRow,
   Dictionary,
   ExperienceEntry,
-} from './types'
+} from './types.ts'
 
 /**
  * Romanian is not a translation of the English page — it is written for a
