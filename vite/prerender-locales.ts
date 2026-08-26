@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import { ro } from '../src/i18n/ro'
+import { ro } from '../src/i18n/ro.ts'
 
 const SITE = 'https://separatio.github.io'
 

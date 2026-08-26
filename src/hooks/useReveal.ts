@@ -27,6 +27,14 @@ export function useReveal<T extends HTMLElement = HTMLElement>() {
     if (typeof IntersectionObserver === 'undefined') return
 
     // Arm the hidden start-state now that we know we can reveal it back.
+    //
+    // set-state-in-effect is correct as a general rule and wrong here. The
+    // whole safety contract above depends on this flip happening *after* the
+    // three runtime checks, one of which reads ref.current — so it cannot move
+    // into render without defaulting to hidden, which is the failure mode the
+    // contract exists to prevent (content stuck invisible when JS or the
+    // observer never runs). One extra render on mount is the price.
+    // eslint-disable-next-line react-hooks/set-state-in-effect, react-x/set-state-in-effect
     setRevealed(false)
 
     const observer = new IntersectionObserver(
