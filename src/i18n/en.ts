@@ -4,6 +4,15 @@ const buildingCards: BuildingCard[] = [
   {
     kind: 'named',
     index: '01',
+    name: 'copilariadigitala.github.io',
+    href: 'https://copilariadigitala.github.io/',
+    tag: 'CLIENT WORK · LIVE',
+    description: 'A public website I build and maintain for a client.',
+    cta: 'WEBSITE ↗',
+  },
+  {
+    kind: 'named',
+    index: '02',
     name: 'Flowy',
     href: 'https://github.com/sqaoss/flowy',
     tag: 'OPEN SOURCE · APACHE 2.0',
@@ -12,21 +21,21 @@ const buildingCards: BuildingCard[] = [
   },
   {
     kind: 'quiet',
-    index: '02',
+    index: '03',
     label: 'REGULATED SAAS',
     sentence:
       'An early-stage multi-tenant SaaS in a regulated European market (pre-launch).',
   },
   {
     kind: 'quiet',
-    index: '03',
+    index: '04',
     label: 'AGENT INFRASTRUCTURE',
     sentence:
       'A self-hosted multi-agent Claude orchestrator running on personal infrastructure, paired to Discord.',
   },
   {
     kind: 'quiet',
-    index: '04',
+    index: '05',
     label: 'AI CHIEF OF STAFF',
     sentence:
       'A family-facing AI Chief of Staff bot covering calendar, finance, and household context.',

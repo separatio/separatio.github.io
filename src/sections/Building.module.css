@@ -1,4 +1,4 @@
-/* Building — 2×2 grid of gold-bordered cards with a gold-wash hover. */
+/* Building — a full-width lead card over a 2×2 grid, gold-bordered, gold-wash hover. */
 .section {
   padding: var(--space-lg) var(--gutter) var(--space-2xl);
   scroll-margin-top: var(--nav-height);
@@ -19,6 +19,20 @@
 /* Each Reveal wrapper is a grid cell — stretch its card to fill the row. */
 .grid > * {
   display: flex;
+  /* Let a cell shrink under its content's min-content width. Without this the
+     single-column mobile grid inherits `min-width: auto` and a wide card can
+     push the whole page past the viewport. */
+  min-width: 0;
+}
+
+/*
+ * Card 01 leads, full width, and the remaining four fall into the 2×2 below.
+ * Positional on purpose: whatever sits first is the lead card, so reordering
+ * the dictionary is the only edit needed to promote a different project.
+ * Below 760px the grid is already single-column and this rule is a no-op.
+ */
+.grid > *:first-child {
+  grid-column: 1 / -1;
 }
 
 .card {
@@ -62,6 +76,10 @@
   font-weight: 500;
   font-size: var(--text-lg);
   color: var(--text-primary);
+  /* A card named for a domain has no break opportunity in it. Left alone, that
+     one string sets the grid's min-content width and scrolls the page sideways
+     on a 360px phone. `anywhere` (not `break-word`) is what shrinks min-content. */
+  overflow-wrap: anywhere;
 }
 
 .label {

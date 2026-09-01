@@ -20,7 +20,7 @@ function Card({ card, github }: { card: BuildingCard; github: string }) {
         <span className={styles.tag}>{card.tag}</span>
         <p className={styles.desc}>{card.description}</p>
         <span className={styles.cta} aria-hidden="true">
-          {github}
+          {card.cta ?? github}
         </span>
       </a>
     )
