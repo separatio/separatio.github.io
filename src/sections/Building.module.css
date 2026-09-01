@@ -76,10 +76,6 @@
   font-weight: 500;
   font-size: var(--text-lg);
   color: var(--text-primary);
-  /* A card named for a domain has no break opportunity in it. Left alone, that
-     one string sets the grid's min-content width and scrolls the page sideways
-     on a 360px phone. `anywhere` (not `break-word`) is what shrinks min-content. */
-  overflow-wrap: anywhere;
 }
 
 .label {
@@ -99,6 +95,38 @@
   text-transform: uppercase;
   color: var(--gold);
   opacity: 0.85;
+}
+
+/*
+ * The URL line, in the tag's slot. Not uppercased — a domain is written the way
+ * it is typed. Underlined so it reads as the link it is; the click target is the
+ * whole card, so this is a span and not a nested <a>.
+ *
+ * `overflow-wrap` is the guard that keeps a long domain from setting the grid's
+ * min-content width and scrolling the page sideways on a narrow phone. It fits
+ * on one line at 360px, but nothing here guarantees the next domain will.
+ */
+.url {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  /*
+   * No `--tracking-wide` here, unlike `.tag`. Wide tracking is for the
+   * uppercase eyebrow style; on a lowercase domain it reads badly and adds
+   * ~60px across 26 characters, which is enough on its own to wrap the line
+   * onto two at 360px.
+   */
+  color: var(--gold);
+  opacity: 0.85;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-color: rgba(var(--gold-rgb), 0.4);
+  transition: text-decoration-color var(--duration-base) var(--ease-out);
+}
+
+.cardLink:hover .url,
+.cardLink:focus-visible .url {
+  text-decoration-color: var(--gold);
 }
 
 .desc {
@@ -136,7 +164,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .card,
-  .cta {
+  .cta,
+  .url {
     transition: none;
   }
 

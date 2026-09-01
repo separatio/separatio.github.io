@@ -4,9 +4,9 @@ const buildingCards: BuildingCard[] = [
   {
     kind: 'named',
     index: '01',
-    name: 'copilariadigitala.github.io',
+    name: 'Copilăria Digitală',
     href: 'https://copilariadigitala.github.io/',
-    tag: 'CLIENT WORK · LIVE',
+    url: 'copilariadigitala.github.io',
     description: 'A public website I build and maintain for a client.',
     cta: 'WEBSITE ↗',
   },

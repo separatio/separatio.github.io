@@ -25,7 +25,13 @@ type NamedCard = {
   /** Outbound link — opened in a new tab with rel="noreferrer". */
   href: string
   /** Small license/status tag, e.g. "OPEN SOURCE · APACHE 2.0". */
-  tag: string
+  tag?: string
+  /**
+   * Visible URL line, shown in `tag`'s slot when set. Rendered as a span, not
+   * an anchor: the card itself is the link and an <a> inside an <a> is invalid
+   * HTML. It still navigates on click, because the card does.
+   */
+  url?: string
   description: string
   /**
    * Hover CTA label. Defaults to `building.github` when omitted, which is right

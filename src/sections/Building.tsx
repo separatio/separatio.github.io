@@ -17,7 +17,11 @@ function Card({ card, github }: { card: BuildingCard; github: string }) {
       >
         <span className={styles.index}>{card.index}</span>
         <span className={styles.name}>{card.name}</span>
-        <span className={styles.tag}>{card.tag}</span>
+        {card.url ? (
+          <span className={styles.url}>{card.url}</span>
+        ) : (
+          <span className={styles.tag}>{card.tag}</span>
+        )}
         <p className={styles.desc}>{card.description}</p>
         <span className={styles.cta} aria-hidden="true">
           {card.cta ?? github}

@@ -29,9 +29,9 @@ const buildingCards: BuildingCard[] = [
   {
     kind: 'named',
     index: '01',
-    name: 'copilariadigitala.github.io',
+    name: 'Copilăria Digitală',
     href: 'https://copilariadigitala.github.io/',
-    tag: 'PROIECT PENTRU UN CLIENT · ONLINE',
+    url: 'copilariadigitala.github.io',
     description:
       'Un site public pe care îl construiesc și îl întrețin pentru un client.',
     cta: 'SITE ↗',
