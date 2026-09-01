@@ -29,6 +29,16 @@ const buildingCards: BuildingCard[] = [
   {
     kind: 'named',
     index: '01',
+    name: 'Copilăria Digitală',
+    href: 'https://copilariadigitala.github.io/',
+    url: 'copilariadigitala.github.io',
+    description:
+      'Un site public pe care îl construiesc și îl întrețin pentru un client.',
+    cta: 'SITE ↗',
+  },
+  {
+    kind: 'named',
+    index: '02',
     name: 'Flowy',
     href: 'https://github.com/sqaoss/flowy',
     tag: 'OPEN SOURCE · APACHE 2.0',
@@ -37,21 +47,21 @@ const buildingCards: BuildingCard[] = [
   },
   {
     kind: 'quiet',
-    index: '02',
+    index: '03',
     label: 'DOMENIU REGLEMENTAT',
     sentence:
       'O platformă la început de drum, într-un domeniu european cu reguli stricte (încă nelansată).',
   },
   {
     kind: 'quiet',
-    index: '03',
+    index: '04',
     label: 'INFRASTRUCTURĂ PROPRIE',
     sentence:
       'Un sistem care ține mai mulți asistenți AI la lucru non-stop, pe serverele mele, comandat dintr-un chat.',
   },
   {
     kind: 'quiet',
-    index: '04',
+    index: '05',
     label: 'ASISTENT DE FAMILIE',
     sentence:
       'Un asistent pentru familie, care ține evidența calendarului, a cheltuielilor și a treburilor casei.',

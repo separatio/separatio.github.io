@@ -5,10 +5,16 @@ import type { en } from './en'
  *
  * The type is a discriminated union enforcing the public-privacy guardrail at
  * the structural level: only a `named` card carries a project `name` + outbound
- * `href` (Flowy is the single project allowed to be named/linked publicly).
- * A `quiet` card has no `name` and no `href` field at all — only a mono `label`
- * and the approved sentence. There is no way to attach a name or link to a quiet
- * card without changing this type.
+ * `href`. A card earns `named` only when the thing it points at is already
+ * public under that name and is mine to publish. Everything else stays `quiet`:
+ * no `name` and no `href` field at all, only a mono `label` and the approved
+ * sentence. There is no way to attach a name or link to a quiet card without
+ * changing this type.
+ *
+ * Client work is named for the artefact, never for the client. Card 01 links
+ * the website; it does not name the organisation behind it, describe the
+ * initiative, or claim an affiliation, because that consent was never given.
+ * Do not add those details here. The site itself carries them.
  */
 
 type NamedCard = {
@@ -19,8 +25,19 @@ type NamedCard = {
   /** Outbound link — opened in a new tab with rel="noreferrer". */
   href: string
   /** Small license/status tag, e.g. "OPEN SOURCE · APACHE 2.0". */
-  tag: string
+  tag?: string
+  /**
+   * Visible URL line, shown in `tag`'s slot when set. Rendered as a span, not
+   * an anchor: the card itself is the link and an <a> inside an <a> is invalid
+   * HTML. It still navigates on click, because the card does.
+   */
+  url?: string
   description: string
+  /**
+   * Hover CTA label. Defaults to `building.github` when omitted, which is right
+   * for cards that link a repository and wrong for one that links a live site.
+   */
+  cta?: string
 }
 
 type QuietCard = {

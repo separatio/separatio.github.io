@@ -1,4 +1,4 @@
-/* Building — 2×2 grid of gold-bordered cards with a gold-wash hover. */
+/* Building — a full-width lead card over a 2×2 grid, gold-bordered, gold-wash hover. */
 .section {
   padding: var(--space-lg) var(--gutter) var(--space-2xl);
   scroll-margin-top: var(--nav-height);
@@ -19,6 +19,20 @@
 /* Each Reveal wrapper is a grid cell — stretch its card to fill the row. */
 .grid > * {
   display: flex;
+  /* Let a cell shrink under its content's min-content width. Without this the
+     single-column mobile grid inherits `min-width: auto` and a wide card can
+     push the whole page past the viewport. */
+  min-width: 0;
+}
+
+/*
+ * Card 01 leads, full width, and the remaining four fall into the 2×2 below.
+ * Positional on purpose: whatever sits first is the lead card, so reordering
+ * the dictionary is the only edit needed to promote a different project.
+ * Below 760px the grid is already single-column and this rule is a no-op.
+ */
+.grid > *:first-child {
+  grid-column: 1 / -1;
 }
 
 .card {
@@ -83,6 +97,38 @@
   opacity: 0.85;
 }
 
+/*
+ * The URL line, in the tag's slot. Not uppercased — a domain is written the way
+ * it is typed. Underlined so it reads as the link it is; the click target is the
+ * whole card, so this is a span and not a nested <a>.
+ *
+ * `overflow-wrap` is the guard that keeps a long domain from setting the grid's
+ * min-content width and scrolling the page sideways on a narrow phone. It fits
+ * on one line at 360px, but nothing here guarantees the next domain will.
+ */
+.url {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  /*
+   * No `--tracking-wide` here, unlike `.tag`. Wide tracking is for the
+   * uppercase eyebrow style; on a lowercase domain it reads badly and adds
+   * ~60px across 26 characters, which is enough on its own to wrap the line
+   * onto two at 360px.
+   */
+  color: var(--gold);
+  opacity: 0.85;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-color: rgba(var(--gold-rgb), 0.4);
+  transition: text-decoration-color var(--duration-base) var(--ease-out);
+}
+
+.cardLink:hover .url,
+.cardLink:focus-visible .url {
+  text-decoration-color: var(--gold);
+}
+
 .desc {
   margin-top: var(--space-2xs);
   font-size: 1.0625rem; /* 17px — section body, a touch above the 16px floor */
@@ -118,7 +164,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .card,
-  .cta {
+  .cta,
+  .url {
     transition: none;
   }
 
