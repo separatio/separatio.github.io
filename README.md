@@ -9,14 +9,14 @@ Sections: Hero, About, Experience, Building, Writing (with `/writing` route for 
 ## Development
 
 ```sh
-pnpm install
-pnpm dev
+bun install
+bun run dev
 ```
 
 ## Build
 
 ```sh
-pnpm build
+bun run build
 ```
 
 ## Deploy

@@ -1,7 +1,7 @@
 # Ignore artifacts:
 build
 coverage
-pnpm-lock.yaml
+bun.lock
 .superpowers/
 
 # hand-authored booklet: source whitespace is poem content, do not reformat

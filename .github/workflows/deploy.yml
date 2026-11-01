@@ -31,24 +31,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v6
-        name: Install pnpm
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
         with:
-          run_install: false
+          bun-version: '1.4.4'
 
+      # bun run follows the tools' node shebangs, so Vite builds on this Node.
+      # Without this step it would be whatever Node the runner image ships.
       - name: Install Node.js
         uses: actions/setup-node@v7
         with:
           # Active LTS. 22 went to maintenance in Oct 2025; 24 is supported
           # until Apr 2028. See https://github.com/nodejs/Release.
           node-version: 24
-          cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun install --frozen-lockfile
 
       - name: Build
-        run: pnpm run build
+        run: bun run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v6

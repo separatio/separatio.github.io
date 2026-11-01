@@ -6,15 +6,24 @@ Personal site + blog for Alex Rădulescu. Vite + React 19 + TypeScript SPA, depl
 
 ## Commands
 
-Package manager is **pnpm** (not npm/node) — use `pnpm`/`pnpm dlx`.
+Package manager is **bun** 1.4.4 (never npm, npx, pnpm or yarn) — use `bun run`/`bunx`. Always `bun run build`: a bare `bun build` is bun's own bundler, not this script.
 
-- `pnpm dev` — local dev server
-- `pnpm build` — `tsc` typecheck + Vite build to `dist/`
-- `pnpm lint` / `pnpm format` — ESLint / Prettier (both run on pre-commit via Husky)
+- `bun run dev` — local dev server
+- `bun run build` — `tsc` typecheck + Vite build to `dist/`
+- `bun run lint` / `bun run format` — ESLint / Prettier (both run on pre-commit via Husky)
+
+**Node stays for the build, on purpose.** `bun run` follows the tools' `#!/usr/bin/env node` shebangs, so Vite runs on the first `node` on PATH. `deploy.yml` pins that to Node 24; bun doesn't enforce `.nvmrc` or `engines`. Node 24 and 26 give identical output. With `bun --bun`, or with no Node on PATH, Vite stringifies its preload helper from bun's transpiled source, so the JS bundle gets different bytes and a new hash. Taking the deploy off Node changes what the live site serves, so make that its own deliberate change.
+
+`package.json` holds the settings that used to be in `pnpm-workspace.yaml`:
+
+- `trustedDependencies` — the only dependencies allowed to run install scripts. An explicit list replaces bun's default allowlist.
+- `overrides` — a guard against GHSA-4fh9-h7wg-q85m (unsanitized class attribute). react-markdown and remark-rehype declare `mdast-util-to-hast@^13.0.0`, which already resolves to the patched 13.2.1, so this only stops an older version coming back. Bun applies it to any dependency range that overlaps the `@<13.2.1` selector, not only to vulnerable versions, so those ranges stay rewritten until they move past it. The target is a caret so a re-resolve can't jump to a new major.
+
+`bunfig.toml` sets the isolated linker, which keeps pnpm's strict `node_modules`: an undeclared import fails `tsc` instead of shipping.
 
 ## Deploy
 
-CI auto-deploys on push to **`master`** (the default branch — the README's "push to `main`" is stale). Do NOT run `pnpm deploy` manually; it's superseded by the GitHub Actions workflow.
+CI auto-deploys on push to **`master`** (the default branch — the README's "push to `main`" is stale). Do NOT run `bun run deploy` manually; it's superseded by the GitHub Actions workflow.
 
 ## Writing posts
 
