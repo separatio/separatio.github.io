@@ -1,2 +1,2 @@
-pnpm lint
-pnpm format
+bun run lint
+bun run format
