@@ -38,6 +38,8 @@ jobs:
           bun --version
           node --version
           git status --short
+          ls -d node_modules/.bun
+          ls -A node_modules
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5

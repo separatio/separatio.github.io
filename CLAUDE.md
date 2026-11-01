@@ -17,7 +17,7 @@ Package manager is **bun** 1.4.4 (never npm, npx, pnpm or yarn) — use `bun run
 `package.json` holds the settings that used to be in `pnpm-workspace.yaml`:
 
 - `trustedDependencies` — the only dependencies allowed to run install scripts. An explicit list replaces bun's default allowlist.
-- `overrides` — GHSA-4fh9-h7wg-q85m (unsanitized class attribute), reached transitively via react-markdown, which is already on its latest release, so no direct bump clears it. Bun applies it to any dependency range that overlaps the `@<13.2.1` selector, not only to vulnerable versions, so react-markdown's `^13.0.0` stays rewritten until the tree's ranges move past it. The target is a caret so a re-resolve can't jump to a new major.
+- `overrides` — a guard against GHSA-4fh9-h7wg-q85m (unsanitized class attribute). react-markdown and remark-rehype declare `mdast-util-to-hast@^13.0.0`, which already resolves to the patched 13.2.1, so this only stops an older version coming back. Bun applies it to any dependency range that overlaps the `@<13.2.1` selector, not only to vulnerable versions, so those ranges stay rewritten until they move past it. The target is a caret so a re-resolve can't jump to a new major.
 
 `bunfig.toml` sets the isolated linker, which keeps pnpm's strict `node_modules`: an undeclared import fails `tsc` instead of shipping.
 
