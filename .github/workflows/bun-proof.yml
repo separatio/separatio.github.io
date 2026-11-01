@@ -1,0 +1,47 @@
+# TEMPORARY: proves the deploy workflow's build steps on a real runner before
+# merge. Build only: no Pages permissions and no environment, so it cannot
+# deploy. Removed from the branch before the PR lands.
+name: Bun build proof (temporary)
+
+on:
+  push:
+    branches: ['chore/bun-migration']
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.4'
+
+      - name: Install Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      - name: Report versions
+        run: |
+          bun --version
+          node --version
+          git status --short
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          name: bun-proof
+          path: './dist'
+          retention-days: 1
