@@ -1,0 +1,3 @@
+[install]
+# Keeps pnpm's strict node_modules: an undeclared import fails tsc instead of shipping.
+linker = "isolated"
